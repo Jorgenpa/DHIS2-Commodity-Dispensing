@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.left {
+    width: 200px;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+
+.right {
+    flex-grow: 1;
+    min-height: 100vh;
+    padding: 26px 16px 0;
+    background: #f0f0f0;
+}
+
+/*Oblig 3*/
+.right>div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.right>ul>div.selected {
+    background-color: red;
+}
+
+.right>div>table {
+    position: sticky;
+    top: 0;
+    height: fit-content;
+}
