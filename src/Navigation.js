@@ -20,9 +20,9 @@ export function Navigation(props) {
         onClick={() => props.activePageHandler("Datasets")}
       />
       <MenuItem
-        label="Test"
-        active={props.activePage == "Test"}
-        onClick={() => props.activePageHandler("Test")}
+        label="Figure1"
+        active={props.activePage == "Figure1"}
+        onClick={() => props.activePageHandler("Figure1")}
       />
     </Menu>
   );
