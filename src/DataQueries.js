@@ -4,11 +4,11 @@ export function fetchHospitalData() {
     return {
         dataValueSets: {
             resource: "/dataValueSets",
-            params: {
-                orgUnit: "MnfykVk3zin",
+            params: ({ orgUnit }) => ({
+                orgUnit: orgUnit,
                 period: "202110",
                 dataSet: "ULowA8V3ucd"
-            }
+            })
         },
         dataSets: {
             resource: "/dataSets",
@@ -18,5 +18,18 @@ export function fetchHospitalData() {
                 filter: "name:eq:Life-Saving Commodities"
             }
         }
+    }
+}
+
+
+// The data query to find the health facilities nearby 
+export function fetchNeighbors() {
+    return {
+        orgUnits: {
+            resource: "/organisationUnits/aWQTfvgPA5v",
+            params: {
+              fields: "children[displayName,id]"
+            }
+          }
     }
 }

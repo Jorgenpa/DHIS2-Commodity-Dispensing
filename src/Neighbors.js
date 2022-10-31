@@ -9,21 +9,15 @@ import {
     DataTableBody,
     DataTableRow,
     TableRowHead,
-    DataTableToolbar, 
-    Field,
 } from '@dhis2/ui'
 
-import { fetchHospitalData } from "./DataQueries";
+import { fetchHospitalData, fetchNeighbors } from "./DataQueries";
 
+// Fungerer ikke enda :( 
 
-// Retrieves data from the API and creates a table with it
-export function Overview(props) {
-    const { loading, error, data } = useDataQuery(fetchHospitalData(), {
-        variables: {
-            orgUnit: "MnfykVk3zin",
-        }
-    })
-    const [values, setValues] = useState([])
+// Retrieves data from the API and lets the user choose which health facility to look at
+export function NeighborOverview(props) {
+    const { loading, error, data } = useDataQuery(fetchNeighbors())
 
     if (error) {
         return <span>ERROR: {error.message}</span>
@@ -35,8 +29,17 @@ export function Overview(props) {
 
     if (data) {
         console.log(data);
-        let array = []
+        const facilities = []
 
+        data?.orgUnits?.children?.map((facility) => {
+            if (facility.id !== "MnfykVk3zin") 
+                facilities.push({name: facility.displayName, id: facility.id})
+        })
+        
+        console.log(facilities)
+
+        /*
+        let array = []
         data?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue =>
             array.push({
                 "id": dataValue.dataElement.id,
@@ -46,41 +49,32 @@ export function Overview(props) {
         data?.dataValueSets?.dataValues?.map(dataValue => {
             array.map(arrValue => {
                 if (arrValue.id == dataValue.dataElement) {
-                    if (dataValue.categoryOptionCombo == "J2Qf1jtZuj8")
-                        arrValue.con = dataValue.value
-                    else if (dataValue.categoryOptionCombo == "rQLFnNXXIL0")
+                    if (dataValue.categoryOptionCombo == "rQLFnNXXIL0")
                         arrValue.end = dataValue.value
-                    else if (dataValue.categoryOptionCombo == "KPP63zJPkOu")
-                        arrValue.qua = dataValue.value
                 }
             })
         })
+        */
         return (
             <>
-                <DataTableToolbar>
-                    <Field label="Senjehun MCHP"></Field>
-                </DataTableToolbar>
                 <DataTable>
                     <DataTableHead>
                         <TableRowHead>
                             <DataTableColumnHeader>Commodity</DataTableColumnHeader>
-                            <DataTableColumnHeader>Consumption</DataTableColumnHeader>
-                            <DataTableColumnHeader>End balance</DataTableColumnHeader>
-                            <DataTableColumnHeader>Quantity to be ordered</DataTableColumnHeader>
+                            <DataTableColumnHeader>In stock</DataTableColumnHeader>
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>
                         {array?.map((dataValue, index) =>
                             <DataTableRow key={index}>
                                 <DataTableCell>{dataValue.name}</DataTableCell>
-                                <DataTableCell>{dataValue.con}</DataTableCell>
                                 <DataTableCell>{dataValue.end}</DataTableCell>
-                                <DataTableCell>{dataValue.qua}</DataTableCell>
                             </DataTableRow>
                         )}
                     </DataTableBody>
                 </DataTable>
             </>
         )
+        
     }
 }

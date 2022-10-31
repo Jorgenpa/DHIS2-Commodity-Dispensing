@@ -7,6 +7,7 @@ import { Insert } from "./Insert";
 import { Navigation } from "./Navigation";
 import Datasets from "./Datasets";
 import { Overview } from "./Overview";
+import { NeighborOverview } from "./Neighbors";
 
 function MyApp() {
   const [activePage, setActivePage] = useState("Overview");
@@ -28,6 +29,7 @@ function MyApp() {
         {activePage === "Insert" && <Insert />}
         {activePage === "Datasets" && <Datasets />}
         {activePage === "Overview" && <Overview />}
+        {activePage === "Neighbors" && <NeighborOverview />}
       </div>
     </div>
   );
