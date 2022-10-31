@@ -3,37 +3,22 @@ import { CircularLoader } from "@dhis2/ui"
 import React, { useState } from 'react';
 import {
     DataTable,
-    Table,
-    TableBody,
     DataTableCell,
     DataTableColumnHeader,
-    TableFoot,
-    TableHead,
+    DataTableHead,
+    DataTableBody,
     DataTableRow,
     TableRowHead,
 } from '@dhis2/ui'
 
-const dataQuery = {
-    dataValueSets: {
-        resource: "/dataValueSets",
-        params: {
-            orgUnit: "MnfykVk3zin",
-            period: "202110",
-            dataSet: "ULowA8V3ucd"
-        }
-    },
-    dataSets: {
-        resource: "/dataSets",
-        params: {
-            dataSetId: "ULowA8V3ucd",
-            fields: "name,id,dataSetElements[dataElement[name,id,categoryCombo[name,id]]]",
-            filter: "name:eq:Life-Saving Commodities"
-        }
-    }
-}
-export function Figure1(props) {
-    const { loading, error, data } = useDataQuery(dataQuery)
+import { fetchHospitalData } from "./DataQueries";
+
+
+// Retrieves data from the API and creates a table with it
+export function Overview(props) {
+    const { loading, error, data } = useDataQuery(fetchHospitalData())
     const [values, setValues] = useState([])
+
     if (error) {
         return <span>ERROR: {error.message}</span>
     }
@@ -67,7 +52,7 @@ export function Figure1(props) {
         return (
             <>
                 <DataTable>
-                    <TableHead>
+                    <DataTableHead>
                         <TableRowHead>
                             <DataTableColumnHeader></DataTableColumnHeader>
                             <DataTableColumnHeader>Consumption</DataTableColumnHeader>
@@ -80,8 +65,8 @@ export function Figure1(props) {
                             <DataTableColumnHeader>B</DataTableColumnHeader>
                             <DataTableColumnHeader>C</DataTableColumnHeader>
                         </TableRowHead>
-                    </TableHead>
-                    <TableBody>
+                    </DataTableHead>
+                    <DataTableBody>
                         {array?.map((dataValue, index) =>
                             <DataTableRow key={index}>
                                 <DataTableCell>{dataValue.name}</DataTableCell>
@@ -90,7 +75,7 @@ export function Figure1(props) {
                                 <DataTableCell>{dataValue.qua}</DataTableCell>
                             </DataTableRow>
                         )}
-                    </TableBody>
+                    </DataTableBody>
                 </DataTable>
             </>
         )
