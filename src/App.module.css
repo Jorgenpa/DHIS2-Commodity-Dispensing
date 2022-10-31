@@ -16,7 +16,6 @@
     background: #f0f0f0;
 }
 
-/*Oblig 3*/
 .right>div {
     display: grid;
     grid-template-columns: 1fr 2fr;

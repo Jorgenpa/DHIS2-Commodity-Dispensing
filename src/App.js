@@ -6,10 +6,10 @@ import { Browse } from "./Browse";
 import { Insert } from "./Insert";
 import { Navigation } from "./Navigation";
 import Datasets from "./Datasets";
-import { Figure1 } from "./Figure1";
+import { Overview } from "./Overview";
 
 function MyApp() {
-  const [activePage, setActivePage] = useState("Figure1");
+  const [activePage, setActivePage] = useState("Overview");
 
   function activePageHandler(page) {
     setActivePage(page);
@@ -27,7 +27,7 @@ function MyApp() {
         {activePage === "Browse" && <Browse />}
         {activePage === "Insert" && <Insert />}
         {activePage === "Datasets" && <Datasets />}
-        {activePage === "Figure1" && <Figure1 />}
+        {activePage === "Overview" && <Overview />}
       </div>
     </div>
   );
