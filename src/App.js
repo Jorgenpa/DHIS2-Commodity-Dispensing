@@ -7,6 +7,7 @@ import { CircularLoader } from "@dhis2/ui"
 import { fetchNeighbors } from "./DataQueries";
 import { Browse } from "./Browse";
 import { Insert } from "./Insert";
+import { Dispense } from "./Dispense";
 import { Navigation } from "./Navigation";
 import Datasets from "./Datasets";
 import { Overview } from "./Overview";
@@ -18,7 +19,7 @@ function MyApp() {
   const { loading, error, data } = useDataQuery(fetchNeighbors())
 
   // Let commodity overview be the start page
-  const [activePage, setActivePage] = useState("Overview");
+  const [activePage, setActivePage] = useState("Dispense");
   function activePageHandler(page) {
     setActivePage(page);
   }
@@ -60,6 +61,7 @@ function MyApp() {
           {activePage === "Datasets" && <Datasets />}
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
+          {activePage === "Dispense" && <Dispense />}
         </div>
       </div>
     );

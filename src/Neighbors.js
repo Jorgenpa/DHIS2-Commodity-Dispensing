@@ -55,28 +55,25 @@ export function NeighborOverview(props) {
                 }
             })
         })
-        return (
 
-            // Det under fungerer ikke  
+        const handleChange = (evt) => {
+            const id = evt.value.split("_")[0]
+            const name = evt.value.split("_")[1]
+            setOrgUnit(id)
+            setName(name)
+            refetch({ orgUnit: id })
+        }
+
+        return (
             <>
                 <DropdownButton
                     name="neighborButtonName"
                     //value="neighborButtonValue"
-                    
+
                     component={
-                        <FlyoutMenu
-                            selectedOrgUnit={orgUnit}
-                            selectedName={name}
-                            onChange={(dataValue) => {
-                                setOrgUnit(dataValue.selectedOrgUnit)
-                                setName(dataValue.selectedName)
-                                console.log(orgUnit)
-                                console.log(dataValue.selectedOrgUnit)
-                                refetch({ orgUnit: dataValue.selectedOrgUnit })
-                            }}
-                        >
+                        <FlyoutMenu>
                             {props.neighbors.map((neighbor, index) => (
-                                <MenuItem label={neighbor.name} key={index} value={neighbor.id} />
+                                <MenuItem label={neighbor.name} key={index} value={`${neighbor.id}_${neighbor.name}`} onClick={handleChange} />
                             ))}
                         </FlyoutMenu>
                     }
@@ -85,7 +82,7 @@ export function NeighborOverview(props) {
                 </DropdownButton>
 
                 <DataTableToolbar>
-                    <Field label=<b>{name}</b> ></Field>
+                    <strong><Field label={name}></Field></strong>
                 </DataTableToolbar>
                 <DataTable>
                     <DataTableHead>
@@ -105,6 +102,6 @@ export function NeighborOverview(props) {
                 </DataTable>
             </>
         )
-        
+
     }
 }
