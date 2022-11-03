@@ -9,15 +9,27 @@ import {
     DataTableBody,
     DataTableRow,
     TableRowHead,
+    DataTableToolbar,
+    Field,
+    DropdownButton,
+    FlyoutMenu,
+    MenuItem,
 } from '@dhis2/ui'
 
-import { fetchHospitalData, fetchNeighbors } from "./DataQueries";
+import { fetchHospitalData } from "./DataQueries";
 
-// Fungerer ikke enda :( 
 
 // Retrieves data from the API and lets the user choose which health facility to look at
 export function NeighborOverview(props) {
-    const { loading, error, data } = useDataQuery(fetchNeighbors())
+    const [orgUnit, setOrgUnit] = useState(props.neighbors[0].id)
+    const [name, setName] = useState(props.neighbors[0].name)
+
+    const { loading, error, data, refetch } = useDataQuery(fetchHospitalData(), {
+        variables: {
+            orgUnit: orgUnit,
+            period: props.fd.period,
+        }
+    })
 
     if (error) {
         return <span>ERROR: {error.message}</span>
@@ -28,17 +40,6 @@ export function NeighborOverview(props) {
     }
 
     if (data) {
-        console.log(data);
-        const facilities = []
-
-        data?.orgUnits?.children?.map((facility) => {
-            if (facility.id !== "MnfykVk3zin") 
-                facilities.push({name: facility.displayName, id: facility.id})
-        })
-        
-        console.log(facilities)
-
-        /*
         let array = []
         data?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue =>
             array.push({
@@ -54,9 +55,38 @@ export function NeighborOverview(props) {
                 }
             })
         })
-        */
         return (
+
+            // Det under fungerer ikke  
             <>
+                <DropdownButton
+                    name="neighborButtonName"
+                    //value="neighborButtonValue"
+                    
+                    component={
+                        <FlyoutMenu
+                            selectedOrgUnit={orgUnit}
+                            selectedName={name}
+                            onChange={(dataValue) => {
+                                setOrgUnit(dataValue.selectedOrgUnit)
+                                setName(dataValue.selectedName)
+                                console.log(orgUnit)
+                                console.log(dataValue.selectedOrgUnit)
+                                refetch({ orgUnit: dataValue.selectedOrgUnit })
+                            }}
+                        >
+                            {props.neighbors.map((neighbor, index) => (
+                                <MenuItem label={neighbor.name} key={index} value={neighbor.id} />
+                            ))}
+                        </FlyoutMenu>
+                    }
+                >
+                    Select Hospital
+                </DropdownButton>
+
+                <DataTableToolbar>
+                    <Field label=<b>{name}</b> ></Field>
+                </DataTableToolbar>
                 <DataTable>
                     <DataTableHead>
                         <TableRowHead>

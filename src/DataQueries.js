@@ -4,9 +4,9 @@ export function fetchHospitalData() {
     return {
         dataValueSets: {
             resource: "/dataValueSets",
-            params: ({ orgUnit }) => ({
+            params: ({ orgUnit, period }) => ({
                 orgUnit: orgUnit,
-                period: "202110",
+                period: period,
                 dataSet: "ULowA8V3ucd"
             })
         },

@@ -25,7 +25,7 @@ export function Navigation(props) {
         onClick={() => props.activePageHandler("Overview")}
       />
       <MenuItem
-        label="Neighbors Overview"
+        label="Overview Neighbors"
         active={props.activePage == "Neighbors"}
         onClick={() => props.activePageHandler("Neighbors")}
       />

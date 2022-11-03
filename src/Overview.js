@@ -20,10 +20,10 @@ import { fetchHospitalData } from "./DataQueries";
 export function Overview(props) {
     const { loading, error, data } = useDataQuery(fetchHospitalData(), {
         variables: {
-            orgUnit: "MnfykVk3zin",
+            orgUnit: props.fd.orgUnit,
+            period: props.fd.period,
         }
     })
-    const [values, setValues] = useState([])
 
     if (error) {
         return <span>ERROR: {error.message}</span>
@@ -34,7 +34,6 @@ export function Overview(props) {
     }
 
     if (data) {
-        console.log(data);
         let array = []
 
         data?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue =>
@@ -58,7 +57,7 @@ export function Overview(props) {
         return (
             <>
                 <DataTableToolbar>
-                    <Field label="Senjehun MCHP"></Field>
+                    <Field label=<b>{props.fd.displayName}</b> ></Field>
                 </DataTableToolbar>
                 <DataTable>
                     <DataTableHead>
