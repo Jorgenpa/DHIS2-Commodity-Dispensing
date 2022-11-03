@@ -29,6 +29,11 @@ export function Navigation(props) {
         active={props.activePage == "Neighbors"}
         onClick={() => props.activePageHandler("Neighbors")}
       />
+      <MenuItem
+        label="Dispensing"
+        active={props.activePage == "Dispense"}
+        onClick={() => props.activePageHandler("Dispense")}
+      />
     </Menu>
   );
 }

@@ -61,7 +61,7 @@ function MyApp() {
           {activePage === "Datasets" && <Datasets />}
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
-          {activePage === "Dispense" && <Dispense />}
+          {activePage === "Dispense" && <Dispense fd={facilityData} />}
         </div>
       </div>
     );

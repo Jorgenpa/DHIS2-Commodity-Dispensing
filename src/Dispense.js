@@ -11,12 +11,12 @@ import {
 import { fetchHospitalData } from "./DataQueries";
 
 
-// Retrieves data from the API and creates a table with it
+// Retrieves data from the API to fill the select-option
 export function Dispense(props) {
     const { loading, error, data } = useDataQuery(fetchHospitalData(), {
         variables: {
-            orgUnit: "MnfykVk3zin",
-            period: "202110",
+            orgUnit: props.fd.orgUnit,
+            period: props.fd.period,
         }
     })
     const [values, setValues] = useState({})
