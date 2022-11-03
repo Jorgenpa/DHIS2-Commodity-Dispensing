@@ -68,8 +68,6 @@ export function NeighborOverview(props) {
             <>
                 <DropdownButton
                     name="neighborButtonName"
-                    //value="neighborButtonValue"
-
                     component={
                         <FlyoutMenu>
                             {props.neighbors.map((neighbor, index) => (
