@@ -20,6 +20,7 @@ function MyApp() {
 
   // Let commodity overview be the start page
   const [activePage, setActivePage] = useState("Dispense");
+  let cart = []
   function activePageHandler(page) {
     setActivePage(page);
   }
@@ -61,7 +62,7 @@ function MyApp() {
           {activePage === "Datasets" && <Datasets />}
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
-          {activePage === "Dispense" && <Dispense fd={facilityData} />}
+          {activePage === "Dispense" && <Dispense fd={facilityData} cart={cart} />}
         </div>
       </div>
     );
