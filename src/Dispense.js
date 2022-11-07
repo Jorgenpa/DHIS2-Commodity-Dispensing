@@ -1,4 +1,4 @@
-import { useDataQuery } from "@dhis2/app-runtime"
+import { useDataQuery, useDataMutation } from "@dhis2/app-runtime"
 import { CircularLoader } from "@dhis2/ui"
 import React, { useState, useEffect } from 'react';
 import {
@@ -9,7 +9,7 @@ import {
 } from '@dhis2/ui'
 
 import { fetchHospitalData } from "./DataQueries";
-
+import { deposit } from "./DataQueries";
 
 // Retrieves data from the API to fill the select-option
 export function Dispense(props) {
@@ -19,8 +19,18 @@ export function Dispense(props) {
             period: props.fd.period,
         }
     })
+    const [mutate] = useDataMutation(deposit());
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
+
+    let categoryValues = []
+    data?.dataValueSets?.dataValues?.map(dataValue => {
+        categoryValues.push({
+            "id": dataValue.dataElement,
+            "category": dataValue.categoryOptionCombo,
+            "value": dataValue.value
+            })
+    })
 
     if (error) {
         return <span>ERROR: {error.message}</span>
@@ -69,14 +79,40 @@ export function Dispense(props) {
             }))
         }
 
+        function getValues(commodity, categoryOptionCombo) {
+            for (let i = 0; i < categoryValues.length; i++) {
+                if (categoryValues[i].id == commodity) {
+                    if (categoryValues[i].category == categoryOptionCombo)
+                        return categoryValues[i];
+                }
+            }
+            return null;
+        }
+
         const handleSubmit = (evt) => {
             const date = new Date();
+            console.log(values.commodity)
+            let consumption = getValues(values.commodity, "J2Qf1jtZuj8")
+            let endBalance = getValues(values.commodity, "rQLFnNXXIL0")
+            //let toBeOrdered = getValues(values.commodity, "KPP63zJPkOu")
+
+            mutate ({
+                dataElement:values.commodity,
+                categoryOptionCombo:consumption.category,
+                value:String(parseInt(consumption.value)+parseInt(values.amount))
+            })
+
+            mutate ({
+                dataElement:values.commodity,
+                categoryOptionCombo:endBalance.category,
+                value:String(parseInt(endBalance.value)-parseInt(values.amount))
+            })
+
             if (!values.commodity || !values.amount || !values.from || !values.to) {
                 setErrorMessage("You are missing values")
                 return
             }
             setErrorMessage("")
-
             console.log(values, date.toString());
         }
         return (

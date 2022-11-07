@@ -33,3 +33,23 @@ export function fetchNeighbors() {
           }
     }
 }
+
+// The data query to deposit a transaction
+export function deposit() {
+    return {
+        resource:"dataValueSets",
+        dataSet: "ULowA8V3ucd",
+        type: "create",
+        data: ({dataElement, value, categoryOptionCombo}) => ( {
+            orgUnit: "MnfykVk3zin",
+            period: "202110",
+            dataValues: [
+                {
+                dataElement: dataElement,
+                categoryOptionCombo: categoryOptionCombo,
+                value: value,
+                },
+            ],
+        }),
+    }
+ }

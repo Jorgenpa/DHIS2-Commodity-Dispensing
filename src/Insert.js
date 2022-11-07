@@ -38,6 +38,7 @@ export function Insert(props) {
       period: '2020',
       orgUnit: 'KiheEgvUZ0i',
     })
+    console.log(mutate)
   }
 
   return (
