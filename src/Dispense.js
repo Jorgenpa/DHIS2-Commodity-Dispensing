@@ -7,6 +7,15 @@ import {
     Button,
     Input
 } from '@dhis2/ui'
+import {
+    DataTable,
+    DataTableCell,
+    DataTableColumnHeader,
+    DataTableRow,
+    TableHead,
+    TableBody,
+    AlertBar
+} from '@dhis2/ui'
 
 import { fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
@@ -22,13 +31,14 @@ export function Dispense(props) {
     const [mutate] = useDataMutation(deposit());
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
+    const [cartVisible, setCartVisible] = useState(false)
     let categoryValues = []
     data?.dataValueSets?.dataValues?.map(dataValue => {
         categoryValues.push({
             "id": dataValue.dataElement,
             "category": dataValue.categoryOptionCombo,
             "value": dataValue.value
-            })
+        })
     })
 
     if (error) {
@@ -79,13 +89,23 @@ export function Dispense(props) {
         }
 
         const handleCart = () => {
+            if (!values.commodity || !values.amount || !values.from || !values.to) {
+                setErrorMessage("You are missing values")
+                return
+            }
+
             props.cart.push({
-                "id":values.commodity,
-                "amount":values.amount,
-                "from":values.from,
-                "to":values.to
+                "id": values.commodity,
+                "amount": values.amount,
+                "from": values.from,
+                "to": values.to
             })
+            setValues({})
             console.log(props.cart)
+        }
+
+        const showCart = () => {
+            setCartVisible(!cartVisible)
         }
 
         function getValues(commodity, categoryOptionCombo) {
@@ -105,16 +125,16 @@ export function Dispense(props) {
             for (let i = 0; i < props.cart.length; i++) {
                 let consumption = getValues(props.cart[i].id, "J2Qf1jtZuj8")
                 let endBalance = getValues(props.cart[i].id, "rQLFnNXXIL0")
-                mutate ({
-                    dataElement:consumption.id,
-                    categoryOptionCombo:consumption.category,
-                    value:String(parseInt(consumption.value)+parseInt(values.amount))
+                mutate({
+                    dataElement: consumption.id,
+                    categoryOptionCombo: consumption.category,
+                    value: String(parseInt(consumption.value) + parseInt(values.amount))
                 })
-    
-                mutate ({
-                    dataElement:endBalance.id,
-                    categoryOptionCombo:endBalance.category,
-                    value:String(parseInt(endBalance.value)-parseInt(values.amount))
+
+                mutate({
+                    dataElement: endBalance.id,
+                    categoryOptionCombo: endBalance.category,
+                    value: String(parseInt(endBalance.value) - parseInt(values.amount))
                 })
             }
             props.cart.length = 0;
@@ -126,10 +146,23 @@ export function Dispense(props) {
             setErrorMessage("")
             console.log(values, date.toString());
         }
+
         return (
             <>
-                {errorMessage && <p>{error}</p>}
-                <SingleSelect selected={values?.commodity} className="select" filterable onChange={handleSelect}>
+                {errorMessage &&
+                    <AlertBar warning
+                        style={{
+                            bottom: 0,
+                            left: 0,
+                            paddingLeft: 16,
+                            position: 'fixed',
+                            width: '100%'
+                        }}
+                    >
+                        {errorMessage}
+                    </AlertBar>
+                }
+                <SingleSelect selected={values?.commodity ? values.commodity : array[0].id} className="select" filterable onChange={handleSelect}>
                     {array?.map((commodity, index) =>
                         <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
                     )}
@@ -158,9 +191,47 @@ export function Dispense(props) {
                 <Button name="AddToCart" onClick={handleCart}>
                     ADD TO CART
                 </Button>
-                <Button name="Cart">
-                    VIEW CART
+                <Button name="Cart" onClick={showCart}>
+                    {(cartVisible ? "HIDE" : "VIEW")} CART
                 </Button>
+                {cartVisible &&
+                    <DataTable>
+                        <TableHead>
+                            <DataTableRow>
+                                <DataTableColumnHeader>
+                                    Commodity
+                                </DataTableColumnHeader>
+                                <DataTableColumnHeader>
+                                    Amount
+                                </DataTableColumnHeader>
+                                <DataTableColumnHeader>
+                                    From
+                                </DataTableColumnHeader>
+                                <DataTableColumnHeader>
+                                    To
+                                </DataTableColumnHeader>
+                            </DataTableRow>
+                        </TableHead>
+                        <TableBody>
+                            {props.cart.map((item, index) =>
+                                <DataTableRow>
+                                    <DataTableCell>
+                                        {item.id}
+                                    </DataTableCell>
+                                    <DataTableCell>
+                                        {item.amount}
+                                    </DataTableCell>
+                                    <DataTableCell>
+                                        {item.from}
+                                    </DataTableCell>
+                                    <DataTableCell>
+                                        {item.to}
+                                    </DataTableCell>
+                                </DataTableRow>
+                            )}
+                        </TableBody>
+                    </DataTable>
+                }
             </>
         )
     }
