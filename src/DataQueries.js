@@ -14,7 +14,7 @@ export function fetchHospitalData() {
             resource: "/dataSets",
             params: {
                 dataSetId: "ULowA8V3ucd",
-                fields: "name,id,dataSetElements[dataElement[name,id,categoryCombo[name,id]]]",
+                fields: "name,id,dataSetElements[dataElement[name,id,created,categoryCombo[name,id]]]",
                 filter: "name:eq:Life-Saving Commodities"
             }
         }
