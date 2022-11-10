@@ -9,7 +9,7 @@ import { Browse } from "./Browse";
 import { Insert } from "./Insert";
 import { Dispense } from "./Dispense";
 import { Navigation } from "./Navigation";
-import Datasets from "./Datasets";
+import { DataElements } from "./DataElements";
 import { Overview } from "./Overview";
 import { NeighborOverview } from "./Neighbors";
 
@@ -58,7 +58,7 @@ function MyApp() {
         <div className={classes.right}>
           {activePage === "Browse" && <Browse />}
           {activePage === "Insert" && <Insert />}
-          {activePage === "Datasets" && <Datasets />}
+          {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
           {activePage === "Dispense" && <Dispense fd={facilityData} />}

@@ -1,5 +1,5 @@
 {
-  "name": "Commodity Dispensing",
+  "name": "CommodityDispensing",
   "dependencies": {
     "@dhis2/app-runtime": "^3.5.0",
     "@dhis2/cli": "^4.2.2"
