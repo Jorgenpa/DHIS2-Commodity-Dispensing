@@ -100,7 +100,9 @@ export function Dispense(props) {
                 "from": values.from,
                 "to": values.to
             })
-            setValues({})
+            setValues({
+                "from": values.from
+            })
             console.log(props.cart)
         }
 
@@ -109,22 +111,15 @@ export function Dispense(props) {
         }
 
         function getValues(commodity, categoryOptionCombo) {
-            for (let i = 0; i < categoryValues.length; i++) {
-                if (categoryValues[i].id == commodity) {
-                    if (categoryValues[i].category == categoryOptionCombo)
-                        return categoryValues[i];
-                }
-            }
-            return null;
+            return categoryValues.find(value => value.id == commodity && value.category == categoryOptionCombo)
         }
 
         const handleSubmit = (evt) => {
             const date = new Date();
-            console.log(values.commodity)
-            //let toBeOrdered = getValues(values.commodity, "KPP63zJPkOu")
-            for (let i = 0; i < props.cart.length; i++) {
-                let consumption = getValues(props.cart[i].id, "J2Qf1jtZuj8")
-                let endBalance = getValues(props.cart[i].id, "rQLFnNXXIL0")
+
+            props.cart.map(item => {
+                let consumption = getValues(item.id, "J2Qf1jtZuj8")
+                let endBalance = getValues(item.id, "rQLFnNXXIL0")
                 mutate({
                     dataElement: consumption.id,
                     categoryOptionCombo: consumption.category,
@@ -136,33 +131,18 @@ export function Dispense(props) {
                     categoryOptionCombo: endBalance.category,
                     value: String(parseInt(endBalance.value) - parseInt(values.amount))
                 })
-            }
+            })
             props.cart.length = 0;
-
-            if (!values.commodity || !values.amount || !values.from || !values.to) {
-                setErrorMessage("You are missing values")
-                return
-            }
-            setErrorMessage("")
-            console.log(values, date.toString());
         }
 
         return (
             <>
                 {errorMessage &&
-                    <AlertBar warning
-                        style={{
-                            bottom: 0,
-                            left: 0,
-                            paddingLeft: 16,
-                            position: 'fixed',
-                            width: '100%'
-                        }}
-                    >
+                    <AlertBar warning>
                         {errorMessage}
                     </AlertBar>
                 }
-                <SingleSelect selected={values?.commodity ? values.commodity : array[0].id} className="select" filterable onChange={handleSelect}>
+                <SingleSelect selected={values?.commodity} className="select" onChange={handleSelect}>
                     {array?.map((commodity, index) =>
                         <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
                     )}
@@ -214,7 +194,7 @@ export function Dispense(props) {
                         </TableHead>
                         <TableBody>
                             {props.cart.map((item, index) =>
-                                <DataTableRow>
+                                <DataTableRow key={index}>
                                     <DataTableCell>
                                         {item.id}
                                     </DataTableCell>
