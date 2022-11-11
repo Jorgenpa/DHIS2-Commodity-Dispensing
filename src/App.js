@@ -12,6 +12,7 @@ import { Navigation } from "./Navigation";
 import { DataElements } from "./DataElements";
 import { Overview } from "./Overview";
 import { NeighborOverview } from "./Neighbors";
+import { Replenish } from "./Replenish";
 
 function MyApp() {
 
@@ -63,6 +64,7 @@ function MyApp() {
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
           {activePage === "Dispense" && <Dispense fd={facilityData} cart={cart} />}
+          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} />}
         </div>
       </div>
     );
