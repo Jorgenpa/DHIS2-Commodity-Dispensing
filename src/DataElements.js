@@ -62,7 +62,7 @@ export function DataElements(props) {
                     <DataTableToolbar style={{ background:"lightgray" }} >
                         <strong><Field label={ dataSetName }></Field></strong>
                     </DataTableToolbar>
-                    {array.map(dataset =>
+                    {array?.sort((a,b) => a.name > b.name ? 1 : -1).map(dataset =>
                         <MenuItem key={dataset.id} label={dataset.name} onClick={showDetails} value={JSON.stringify(dataset)} />
                     )}
                 </Menu>

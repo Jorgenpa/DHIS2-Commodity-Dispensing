@@ -17,7 +17,7 @@ import {
     AlertBar
 } from '@dhis2/ui'
 
-import { fetchHospitalData } from "./DataQueries";
+import { fetchDataStoreMutation, fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
 
 // Retrieves data from the API to fill the select-option
@@ -28,6 +28,11 @@ export function Dispense(props) {
             period: props.fd.period,
         }
     })
+
+    //Min kode
+    const [dataStoreMutate] = useDataMutation(fetchDataStoreMutation())
+
+    //Andreas sin kode
     const [mutate] = useDataMutation(deposit());
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
@@ -119,6 +124,7 @@ export function Dispense(props) {
 
         const handleSubmit = (evt) => {
             const date = new Date();
+            console.log("inne i handleSubmit", evt)
 
             props.cart.map(item => {
                 let consumption = getValues(item.id, "J2Qf1jtZuj8")
@@ -150,7 +156,7 @@ export function Dispense(props) {
                     </AlertBar>
                 }
                 <SingleSelect selected={values?.commodity} className="select" onChange={handleSelect}>
-                    {array?.map((commodity, index) =>
+                    {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
                         <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
                     )}
                 </SingleSelect>
@@ -172,7 +178,7 @@ export function Dispense(props) {
                     onChange={handleInput}
                     value={values?.to}
                 />
-                <Button name="Submit" onClick={handleSubmit} value="sumbit">
+                <Button name="Submit" onClick={handleSubmit} value="submit">
                     SEND
                 </Button>
                 <Button name="AddToCart" onClick={handleCart}>

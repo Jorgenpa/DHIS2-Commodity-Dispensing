@@ -53,3 +53,23 @@ export function deposit() {
         }),
     }
  }
+
+
+
+//test fetchDataStoreDataQuery()
+export function fetchDataStoreTransactions(){
+    return {
+        dispensingDataStoreData: {
+            resource: "dataStore/IN5320-G19/DispensingHistory"
+        }
+    }
+}
+  
+// fetchDataStoreMutationQuery
+export function fetchDataStoreMutation(){
+    return({
+        resource: "dataStore/IN5320-G19/DispensingHistory",
+        type: "update",
+        data: (dispensingHistory) => dispensingHistory
+    })
+}
