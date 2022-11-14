@@ -7,8 +7,8 @@
 
 
 ## **Prerequsites**
-- _nods.js_
-- _yarn_
+- _nods.js installed_
+- _yarn installed_
 - _DHIS2 CLI (Command Line Interface) installed_
 - _DHIS2 Portal installed_
 
@@ -34,9 +34,11 @@ $ yarn start
 ```
 
 Your browser (Chrome is recommended) will open a DHIS2 instance on 'localhost:3000'. Log in with:
+```bash
 - Server: http://localhost:9999
 - Username: admin
 - Password: district 
+```
 
 
 ## **Case Description** 
