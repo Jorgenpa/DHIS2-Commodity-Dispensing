@@ -29,10 +29,6 @@ export function Dispense(props) {
         }
     })
 
-    //Min kode
-    const [dataStoreMutate] = useDataMutation(fetchDataStoreMutation())
-
-    //Andreas sin kode
     const [mutate] = useDataMutation(deposit());
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
