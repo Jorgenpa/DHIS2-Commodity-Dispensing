@@ -83,7 +83,7 @@ export function Overview(props) {
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>
-                        {array?.map((dataValue, index) =>
+                        {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((dataValue, index) =>
                             <DataTableRowWithInput key={index} dataValue={dataValue} replenish={replenish} />
                         )}
                     </DataTableBody>
