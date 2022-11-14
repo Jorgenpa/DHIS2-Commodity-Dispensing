@@ -69,19 +69,18 @@ function MyApp() {
         <div className={classes.right}>
           {activePage === "Browse" && <Browse />}
           {activePage === "Insert" && <Insert />}
-          {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
           {activePage === "Dispense" && <Dispense 
-          fd={facilityData} 
-          cart={cart} 
-          setItemIsSelected={setItemIsSelected}
-          setItemData={setItemData}
-          itemData={itemData}
-          itemIsSelected={itemIsSelected}
-          handleClick={handleClick}/>}
-          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} 
-          />}
+            fd={facilityData} 
+            cart={cart} 
+            setItemIsSelected={setItemIsSelected}
+            setItemData={setItemData}
+            itemData={itemData}
+            itemIsSelected={itemIsSelected}
+            handleClick={handleClick}/>}
+          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} />}
+          {activePage === "DataElements" && <DataElements fd={facilityData} />}
         </div>
       </div>
     );
