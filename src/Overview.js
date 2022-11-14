@@ -9,11 +9,13 @@ import {
     DataTableBody,
     DataTableRow,
     TableRowHead,
-    DataTableToolbar, 
+    DataTableToolbar,
     Field,
+    Input
 } from '@dhis2/ui'
 
 import { fetchHospitalData } from "./DataQueries";
+import DataTableRowWithInput from "./components/dataTableRowWithInput";
 
 
 // Retrieves data from the API and creates a table with it
@@ -54,10 +56,15 @@ export function Overview(props) {
                 }
             })
         })
+
+        const handleInput = () => {
+
+        }
+
         return (
             <>
                 <DataTableToolbar>
-                    <Field label=<b>{props.fd.displayName}</b> ></Field>
+                    <Field label={props.fd.displayName}></Field>
                 </DataTableToolbar>
                 <DataTable>
                     <DataTableHead>
@@ -66,16 +73,12 @@ export function Overview(props) {
                             <DataTableColumnHeader>Consumption</DataTableColumnHeader>
                             <DataTableColumnHeader>End balance</DataTableColumnHeader>
                             <DataTableColumnHeader>Quantity to be ordered</DataTableColumnHeader>
+                            <DataTableColumnHeader>Quantity</DataTableColumnHeader>
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>
                         {array?.map((dataValue, index) =>
-                            <DataTableRow key={index}>
-                                <DataTableCell>{dataValue.name}</DataTableCell>
-                                <DataTableCell>{dataValue.con}</DataTableCell>
-                                <DataTableCell>{dataValue.end}</DataTableCell>
-                                <DataTableCell>{dataValue.qua}</DataTableCell>
-                            </DataTableRow>
+                            <DataTableRowWithInput key={index} dataValue={dataValue} />
                         )}
                     </DataTableBody>
                 </DataTable>
