@@ -11,7 +11,7 @@ import {
     TableRowHead,
     DataTableToolbar,
     Field,
-    Input
+    Button
 } from '@dhis2/ui'
 
 import { fetchHospitalData } from "./DataQueries";
@@ -26,6 +26,7 @@ export function Overview(props) {
             period: props.fd.period,
         }
     })
+    const [replenish, setReplenish] = useState(false)
 
     if (error) {
         return <span>ERROR: {error.message}</span>
@@ -57,14 +58,17 @@ export function Overview(props) {
             })
         })
 
-        const handleInput = () => {
-
+        const handleClick = () => {
+            setReplenish(!replenish)
         }
 
         return (
             <>
                 <DataTableToolbar>
                     <Field label={props.fd.displayName}></Field>
+                    <Button name="Basic button" onClick={handleClick} value="default">
+                        {replenish ? "Close" : "Replenish"}
+                    </Button>
                 </DataTableToolbar>
                 <DataTable>
                     <DataTableHead>
@@ -73,12 +77,14 @@ export function Overview(props) {
                             <DataTableColumnHeader>Consumption</DataTableColumnHeader>
                             <DataTableColumnHeader>End balance</DataTableColumnHeader>
                             <DataTableColumnHeader>Quantity to be ordered</DataTableColumnHeader>
-                            <DataTableColumnHeader>Quantity</DataTableColumnHeader>
+                            {replenish &&
+                                <DataTableColumnHeader>Quantity</DataTableColumnHeader>
+                            }
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>
                         {array?.map((dataValue, index) =>
-                            <DataTableRowWithInput key={index} dataValue={dataValue} />
+                            <DataTableRowWithInput key={index} dataValue={dataValue} replenish={replenish} />
                         )}
                     </DataTableBody>
                 </DataTable>
