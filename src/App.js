@@ -22,6 +22,15 @@ function MyApp() {
   // Let commodity overview be the start page
   const [activePage, setActivePage] = useState("Dispense");
   let cart = []
+
+  const [itemIsSelected, setItemIsSelected] = useState(false)
+  const [itemData, setItemData] = useState([{}])
+
+  function handleClick (e) {
+    setItemIsSelected(!itemIsSelected)
+    setItemData(e)
+}
+
   function activePageHandler(page) {
     setActivePage(page);
   }
@@ -63,8 +72,16 @@ function MyApp() {
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
-          {activePage === "Dispense" && <Dispense fd={facilityData} cart={cart} />}
-          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} />}
+          {activePage === "Dispense" && <Dispense 
+          fd={facilityData} 
+          cart={cart} 
+          setItemIsSelected={setItemIsSelected}
+          setItemData={setItemData}
+          itemData={itemData}
+          itemIsSelected={itemIsSelected}
+          handleClick={handleClick}/>}
+          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} 
+          />}
         </div>
       </div>
     );

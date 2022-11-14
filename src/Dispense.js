@@ -32,7 +32,8 @@ export function Dispense(props) {
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
     const [cartVisible, setCartVisible] = useState(false)
-    let categoryValues = []
+    const [categoryValues, setCategoryValues] = useState([])
+
     data?.dataValueSets?.dataValues?.map(dataValue => {
         categoryValues.push({
             "id": dataValue.dataElement,
@@ -100,9 +101,6 @@ export function Dispense(props) {
                 "from": values.from,
                 "to": values.to
             })
-            setValues({
-                "from": values.from
-            })
             console.log(props.cart)
         }
 
@@ -114,6 +112,11 @@ export function Dispense(props) {
             return categoryValues.find(value => value.id == commodity && value.category == categoryOptionCombo)
         }
 
+        function updateValues(commodity, categoryOptionCombo, newValue) {
+            let index = categoryValues.findIndex(obj => obj.id == commodity && obj.category == categoryOptionCombo)
+            categoryValues[index].value = String(parseInt(categoryValues[index].value) + parseInt(newValue))
+        }
+
         const handleSubmit = (evt) => {
             const date = new Date();
 
@@ -123,14 +126,18 @@ export function Dispense(props) {
                 mutate({
                     dataElement: consumption.id,
                     categoryOptionCombo: consumption.category,
-                    value: String(parseInt(consumption.value) + parseInt(values.amount))
-                })
-
-                mutate({
+                    value: String(parseInt(consumption.value) + parseInt(values.amount)),
+                },
+                {
                     dataElement: endBalance.id,
                     categoryOptionCombo: endBalance.category,
                     value: String(parseInt(endBalance.value) - parseInt(values.amount))
-                })
+                }
+                )
+
+                updateValues(item.id, "J2Qf1jtZuj8", values.amount)
+                updateValues(item.id, "rQLFnNXXIL0", -values.amount)
+
             })
             props.cart.length = 0;
         }
