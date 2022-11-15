@@ -1,4 +1,4 @@
-import { useDataQuery } from "@dhis2/app-runtime"
+import { useDataQuery, useDataMutation } from "@dhis2/app-runtime"
 import { CircularLoader, Menu, MenuItem } from "@dhis2/ui"
 import {
     DataTable,
@@ -62,7 +62,7 @@ export function DataElements(props) {
                     <DataTableToolbar style={{ background:"lightgray" }} >
                         <strong><Field label={ dataSetName }></Field></strong>
                     </DataTableToolbar>
-                    {array.map(dataset =>
+                    {array?.sort((a,b) => a.name > b.name ? 1 : -1).map(dataset =>
                         <MenuItem key={dataset.id} label={dataset.name} onClick={showDetails} value={JSON.stringify(dataset)} />
                     )}
                 </Menu>

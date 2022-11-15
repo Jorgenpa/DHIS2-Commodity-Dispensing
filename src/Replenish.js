@@ -1,8 +1,17 @@
-import { useDataQuery } from "@dhis2/app-runtime"
+import { useDataQuery, useDataMutation } from "@dhis2/app-runtime"
 import { CircularLoader } from "@dhis2/ui"
 import React, { useState } from 'react';
 import {useRef, useEffect} from 'react';
+
 import {
+    ReactFinalForm,
+    InputFieldFF,
+    SingleSelectFieldFF,
+    SwitchFieldFF,
+    composeValidators,
+    createEqualTo,
+    email,
+    hasValue,
     DataTable,
     DataTableCell,
     DataTableColumnHeader,
@@ -19,6 +28,8 @@ import {
     Input,
 } from '@dhis2/ui'
 import { fetchHospitalData } from "./DataQueries";
+import { deposit } from "./DataQueries";
+
 
 export function Replenish(props) {
   const { loading, error, data } = useDataQuery(fetchHospitalData(), {
@@ -27,8 +38,17 @@ export function Replenish(props) {
         period: props.fd.period,
     }
   })
-
+  const [mutate] = useDataMutation(deposit());
   const [values, setValues] = useState([])
+  const [categoryValues, setCategoryValues] = useState([])
+
+  data?.dataValueSets?.dataValues?.map(dataValue => {
+      categoryValues.push({
+          "id": dataValue.dataElement,
+          "category": dataValue.categoryOptionCombo,
+          "value": dataValue.value
+      })
+  })
 
 
   const handleInput = (evt) => {
@@ -49,17 +69,33 @@ export function Replenish(props) {
   }
   );
 
-  function handleArray () {
+  function getValues(commodity, categoryOptionCombo) {
+    return categoryValues.find(value => value.id == commodity && value.category == categoryOptionCombo)
+  }
+
+  function updateValues(commodity, categoryOptionCombo, newValue) {
+    let index = categoryValues.findIndex(obj => obj.id == commodity && obj.category == categoryOptionCombo)
+    categoryValues[index].value = String(parseInt(categoryValues[index].value) + parseInt(newValue))
+  }
+
+  function handleSend () {
+    
     for (let i = 0; i < array.length; i++) {
       let val = values[array[i].name]
-      props.cart.push({
-        "id":array[i].name,
-        "amount":val,
-        "from":"",
-        "to":""
-      })
+      if (val != undefined) {
+        let endBalance = getValues(array[i].id, "rQLFnNXXIL0")
+        console.log(val)
+        console.log(values.amount)
+      
+        mutate({
+          dataElement: array[i].id,
+          categoryOptionCombo: "rQLFnNXXIL0",
+          value: String(parseInt(val) + parseInt(endBalance.value))
+        })
+
+        updateValues(array[i].id, "rQLFnNXXIL0", val)
+      }
     }
-    console.log(props.cart)
   }
 
   if (error) {
@@ -72,7 +108,7 @@ export function Replenish(props) {
 
   if (data) {
     return (
-      <form>
+      <div>
         <DataTable>
           <DataTableHead>
             <DataTableRow>
@@ -81,7 +117,7 @@ export function Replenish(props) {
             </DataTableRow>
           </DataTableHead>
           <DataTableBody>
-          {array?.map((dataValue, index) =>
+          {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((dataValue, index) =>
               <DataTableRow key={index}>
                   <DataTableCell>{dataValue.name}</DataTableCell>
                   <DataTableCell>
@@ -90,17 +126,17 @@ export function Replenish(props) {
                     name={dataValue.name}
                     placeholder="Amount"
                     onChange={handleInput}
-                     >
+                    >
                     </Input>
                   </DataTableCell>
               </DataTableRow>
           )}
           </DataTableBody>
         </DataTable>
-        <Button onClick={handleArray}>
+      <Button onClick={handleSend}>
           Send
-        </Button>
-      </form>
+      </Button>
+      </div>
     )
   }
 }

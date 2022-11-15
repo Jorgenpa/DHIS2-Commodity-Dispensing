@@ -17,7 +17,7 @@ import {
     AlertBar
 } from '@dhis2/ui'
 
-import { fetchHospitalData } from "./DataQueries";
+import { fetchDataStoreMutation, fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
 
 // Retrieves data from the API to fill the select-option
@@ -28,11 +28,13 @@ export function Dispense(props) {
             period: props.fd.period,
         }
     })
+
     const [mutate] = useDataMutation(deposit());
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
     const [cartVisible, setCartVisible] = useState(false)
-    let categoryValues = []
+    const [categoryValues, setCategoryValues] = useState([])
+
     data?.dataValueSets?.dataValues?.map(dataValue => {
         categoryValues.push({
             "id": dataValue.dataElement,
@@ -100,9 +102,6 @@ export function Dispense(props) {
                 "from": values.from,
                 "to": values.to
             })
-            setValues({
-                "from": values.from
-            })
             console.log(props.cart)
         }
 
@@ -114,8 +113,14 @@ export function Dispense(props) {
             return categoryValues.find(value => value.id == commodity && value.category == categoryOptionCombo)
         }
 
+        function updateValues(commodity, categoryOptionCombo, newValue) {
+            let index = categoryValues.findIndex(obj => obj.id == commodity && obj.category == categoryOptionCombo)
+            categoryValues[index].value = String(parseInt(categoryValues[index].value) + parseInt(newValue))
+        }
+
         const handleSubmit = (evt) => {
             const date = new Date();
+            console.log("inne i handleSubmit", evt)
 
             props.cart.map(item => {
                 let consumption = getValues(item.id, "J2Qf1jtZuj8")
@@ -123,14 +128,18 @@ export function Dispense(props) {
                 mutate({
                     dataElement: consumption.id,
                     categoryOptionCombo: consumption.category,
-                    value: String(parseInt(consumption.value) + parseInt(values.amount))
-                })
-
-                mutate({
+                    value: String(parseInt(consumption.value) + parseInt(values.amount)),
+                },
+                {
                     dataElement: endBalance.id,
                     categoryOptionCombo: endBalance.category,
                     value: String(parseInt(endBalance.value) - parseInt(values.amount))
-                })
+                }
+                )
+
+                updateValues(item.id, "J2Qf1jtZuj8", values.amount)
+                updateValues(item.id, "rQLFnNXXIL0", -values.amount)
+
             })
             props.cart.length = 0;
         }
@@ -143,7 +152,7 @@ export function Dispense(props) {
                     </AlertBar>
                 }
                 <SingleSelect selected={values?.commodity} className="select" onChange={handleSelect}>
-                    {array?.map((commodity, index) =>
+                    {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
                         <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
                     )}
                 </SingleSelect>
@@ -165,7 +174,7 @@ export function Dispense(props) {
                     onChange={handleInput}
                     value={values?.to}
                 />
-                <Button name="Submit" onClick={handleSubmit} value="sumbit">
+                <Button name="Submit" onClick={handleSubmit} value="submit">
                     SEND
                 </Button>
                 <Button name="AddToCart" onClick={handleCart}>

@@ -90,7 +90,7 @@ export function NeighborOverview(props) {
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>
-                        {array?.map((dataValue, index) =>
+                        {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((dataValue, index) =>
                             <DataTableRow key={index}>
                                 <DataTableCell>{dataValue.name}</DataTableCell>
                                 <DataTableCell>{dataValue.end}</DataTableCell>
