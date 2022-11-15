@@ -1,6 +1,7 @@
 import { useDataQuery } from "@dhis2/app-runtime"
 import { CircularLoader } from "@dhis2/ui"
-import React, { useState } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import {
     DataTable,
     DataTableCell,
@@ -14,8 +15,9 @@ import {
     Button
 } from '@dhis2/ui'
 
-import { fetchHospitalData } from "./DataQueries";
+import { fetchHospitalData, addDataStore } from "./DataQueries";
 import DataTableRowWithInput from "./components/dataTableRowWithInput";
+import axios from 'axios'
 
 
 // Retrieves data from the API and creates a table with it
@@ -27,16 +29,14 @@ export function Overview(props) {
         }
     })
     const [replenish, setReplenish] = useState(false)
+    const [dataValues, setDataValues] = useState([])
+    const [replenishValues, setReplenishValues] = useState(new Map())
 
-    if (error) {
-        return <span>ERROR: {error.message}</span>
-    }
+    useEffect(() => {
+        setDataValues(getTheValues())
+    }, [data])
 
-    if (loading) {
-        return <CircularLoader large />
-    }
-
-    if (data) {
+    const getTheValues = () => {
         let array = []
 
         data?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue =>
@@ -57,18 +57,48 @@ export function Overview(props) {
                 }
             })
         })
+        return array
+    }
 
+    if (error) {
+        return <span>ERROR: {error.message}</span>
+    }
+
+    if (loading) {
+        return <CircularLoader large />
+    }
+
+    if (data) {
         const handleClick = () => {
             setReplenish(!replenish)
+        }
+        const sendValues = async () => {
+            setReplenishValues(new Map(replenishValues.set("dateTime", new Date().toString())))
+            /* TODO: add to dataStore */
+
+            // For å sette nye verdier
+            setReplenishValues(replenishValues.delete('dateTime'))
+            setDataValues(Array.from(replenishValues.values()))
+            setReplenishValues(new Map())
+        }
+        const handleInput = (id, value) => {
+            setReplenishValues(new Map(replenishValues.set(id, value)))
         }
 
         return (
             <>
                 <DataTableToolbar>
                     <Field label={props.fd.displayName}></Field>
-                    <Button name="Basic button" onClick={handleClick} value="default">
-                        {replenish ? "Close" : "Replenish"}
-                    </Button>
+                    <Field>
+                        <Button name="Basic button" onClick={handleClick} value="default">
+                            {replenish ? "Close" : "Replenish"}
+                        </Button>
+                        {replenish &&
+                            <Button name="Basic button" onClick={sendValues} value="default">
+                                Send
+                            </Button>
+                        }
+                    </Field>
                 </DataTableToolbar>
                 <DataTable>
                     <DataTableHead>
@@ -83,8 +113,8 @@ export function Overview(props) {
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>
-                        {array?.map((dataValue, index) =>
-                            <DataTableRowWithInput key={index} dataValue={dataValue} replenish={replenish} />
+                        {dataValues.sort((a,b) => a.name > b.name ? 1 : -1)?.map((dataValue, index) =>
+                            <DataTableRowWithInput key={index} dataValue={dataValue} replenish={replenish} handleInput={handleInput} />
                         )}
                     </DataTableBody>
                 </DataTable>
