@@ -12,6 +12,7 @@ import {
     TableRowHead,
     DataTableToolbar,
     Field,
+    InputField,
     Button
 } from '@dhis2/ui'
 
@@ -22,7 +23,8 @@ import axios from 'axios'
 
 // Retrieves data from the API and creates a table with it
 export function Overview(props) {
-    const { loading, error, data } = useDataQuery(fetchHospitalData(), {
+    const [period, setPeriod] = useState(props?.fd?.period.slice(0,4) + "-" + props?.fd?.period.slice(4))
+    const { loading, error, data, refetch } = useDataQuery(fetchHospitalData(), {
         variables: {
             orgUnit: props.fd.orgUnit,
             period: props.fd.period,
@@ -35,6 +37,10 @@ export function Overview(props) {
     useEffect(() => {
         setDataValues(getTheValues())
     }, [data])
+
+    useEffect(() => {
+        console.log(props?.fd?.period.slice(0,4) + "-" + props?.fd?.period.slice(4));
+    }, [props.fd.period])
 
     const getTheValues = () => {
         let array = []
@@ -77,11 +83,10 @@ export function Overview(props) {
             replenishValues.forEach(item => {
                 if (!item.value) {
                     oneIsEmpty = true
-                    alert(`${item.name} is empty`)
                     return
                 }
             })
-            if (oneIsEmpty) {
+            if (!oneIsEmpty) {
                 setReplenishValues(new Map(replenishValues.set("dateTime", new Date().toString())))
                 /* TODO: add to dataStore */
 
@@ -92,8 +97,16 @@ export function Overview(props) {
                 setReplenish(false)
             }
         }
+
         const handleInput = (id, value) => {
             setReplenishValues(new Map(replenishValues.set(id, value)))
+        }
+
+        const handlePeriod = (evt) => {
+            setPeriod(evt.value)
+            refetch({
+                period: evt.value.split("-")[0]+evt.value.split("-")[1]
+            })
         }
 
         return (
@@ -101,9 +114,13 @@ export function Overview(props) {
                 <DataTableToolbar>
                     <Field label={props.fd.displayName}></Field>
                     <Field>
-                        <Button name="Basic button" onClick={handleClick} value="default">
-                            {replenish ? "Close" : "Replenish"}
-                        </Button>
+                        <InputField type="month" name={`monthToDisplay`} value={period} onChange={handlePeriod} />
+                        {/* JØRGEN SKRIV HER */}
+                        {`2021-10` == period &&
+                            <Button name="Basic button" onClick={handleClick} value="default">
+                                {replenish ? "Close" : "Replenish"}
+                            </Button>
+                        }
                         {replenish &&
                             <Button name="Basic button" onClick={sendValues} value="default">
                                 Send
