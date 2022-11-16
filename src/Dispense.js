@@ -174,9 +174,6 @@ export function Dispense(props) {
                     onChange={handleInput}
                     value={values?.to}
                 />
-                <Button name="Submit" onClick={handleSubmit} value="submit">
-                    SEND
-                </Button>
                 <Button name="AddToCart" onClick={handleCart}>
                     ADD TO CART
                 </Button>
@@ -184,42 +181,49 @@ export function Dispense(props) {
                     {(cartVisible ? "HIDE" : "VIEW")} CART
                 </Button>
                 {cartVisible &&
-                    <DataTable>
-                        <TableHead>
-                            <DataTableRow>
-                                <DataTableColumnHeader>
-                                    Commodity
-                                </DataTableColumnHeader>
-                                <DataTableColumnHeader>
-                                    Amount
-                                </DataTableColumnHeader>
-                                <DataTableColumnHeader>
-                                    From
-                                </DataTableColumnHeader>
-                                <DataTableColumnHeader>
-                                    To
-                                </DataTableColumnHeader>
-                            </DataTableRow>
-                        </TableHead>
-                        <TableBody>
-                            {props.cart.map((item, index) =>
-                                <DataTableRow key={index}>
-                                    <DataTableCell>
-                                        {item.id}
-                                    </DataTableCell>
-                                    <DataTableCell>
-                                        {item.amount}
-                                    </DataTableCell>
-                                    <DataTableCell>
-                                        {item.from}
-                                    </DataTableCell>
-                                    <DataTableCell>
-                                        {item.to}
-                                    </DataTableCell>
+                    <>
+                        {props.cart.length > 0 &&
+                            <Button name="Submit" onClick={handleSubmit} value="submit">
+                                SEND
+                            </Button>
+                        }
+                        <DataTable>
+                            <TableHead>
+                                <DataTableRow>
+                                    <DataTableColumnHeader>
+                                        Commodity
+                                    </DataTableColumnHeader>
+                                    <DataTableColumnHeader>
+                                        Amount
+                                    </DataTableColumnHeader>
+                                    <DataTableColumnHeader>
+                                        From
+                                    </DataTableColumnHeader>
+                                    <DataTableColumnHeader>
+                                        To
+                                    </DataTableColumnHeader>
                                 </DataTableRow>
-                            )}
-                        </TableBody>
-                    </DataTable>
+                            </TableHead>
+                            <TableBody>
+                                {props.cart.map((item, index) =>
+                                    <DataTableRow key={index}>
+                                        <DataTableCell>
+                                            {item.id}
+                                        </DataTableCell>
+                                        <DataTableCell>
+                                            {item.amount}
+                                        </DataTableCell>
+                                        <DataTableCell>
+                                            {item.from}
+                                        </DataTableCell>
+                                        <DataTableCell>
+                                            {item.to}
+                                        </DataTableCell>
+                                    </DataTableRow>
+                                )}
+                            </TableBody>
+                        </DataTable>
+                    </>
                 }
             </>
         )
