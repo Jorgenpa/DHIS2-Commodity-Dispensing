@@ -151,7 +151,7 @@ export function Dispense(props) {
                         {errorMessage}
                     </AlertBar>
                 }
-                <SingleSelect selected={values?.commodity} className="select" onChange={handleSelect}>
+                <SingleSelect selected={values?.commodity} placeholder="Commodity" className="select" onChange={handleSelect}>
                     {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
                         <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
                     )}
@@ -164,13 +164,13 @@ export function Dispense(props) {
                 />
                 <Input
                     name="from"
-                    placeholder="from"
+                    placeholder="From"
                     onChange={handleInput}
                     value={values?.from}
                 />
                 <Input
                     name="to"
-                    placeholder="to"
+                    placeholder="To"
                     onChange={handleInput}
                     value={values?.to}
                 />
