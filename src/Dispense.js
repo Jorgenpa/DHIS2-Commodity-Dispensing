@@ -19,23 +19,29 @@ import {
 
 import { fetchDataStoreMutation, fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
+import { storeDeposit } from "./DataQueries";
+import { getStore } from "./DataQueries";
+
 
 // Retrieves data from the API to fill the select-option
 export function Dispense(props) {
-    const { loading, error, data } = useDataQuery(fetchHospitalData(), {
+    const { data:data2, error: error2, loading:loading2} = useDataQuery(getStore());
+    const { loading:loading1, error:error1, data:data1 } = useDataQuery(fetchHospitalData(), {
         variables: {
             orgUnit: props.fd.orgUnit,
             period: props.fd.period,
         }
     })
+    
 
     const [mutate] = useDataMutation(deposit());
+    const [mutate2] = useDataMutation(storeDeposit());
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
     const [cartVisible, setCartVisible] = useState(false)
     const [categoryValues, setCategoryValues] = useState([])
 
-    data?.dataValueSets?.dataValues?.map(dataValue => {
+    data1?.dataValueSets?.dataValues?.map(dataValue => {
         categoryValues.push({
             "id": dataValue.dataElement,
             "category": dataValue.categoryOptionCombo,
@@ -43,20 +49,20 @@ export function Dispense(props) {
         })
     })
 
-    if (error) {
+    if (error1) {
         return <span>ERROR: {error.message}</span>
     }
 
-    if (loading) {
+    if (loading1 || loading2) {
         return <CircularLoader large />
     }
 
-    if (data) {
+    if (data1) {
         //console.log(data);
         let array = []
         let meme = {}
 
-        data?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue => {
+        data1?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue => {
             array.push({
                 "id": dataValue.dataElement.id,
                 "name": dataValue.dataElement.name.split("-")[1].trim()
@@ -118,6 +124,26 @@ export function Dispense(props) {
             categoryValues[index].value = String(parseInt(categoryValues[index].value) + parseInt(newValue))
         }
 
+        function handleStorage(dato, id, by, to, amount) {
+
+            data2?.dataStore?.data?.map(val => {
+                props.storeData.push(val)
+            })
+    
+            console.log(props.storeData)
+    
+            props.storeData.push( {
+                date: dato,
+                commodityId: id,
+                dispensedBy: by,
+                dispensedTo: to,
+                amount:amount
+            })
+            
+    
+            console.log(props.storeData)
+        }
+
         const handleSubmit = (evt) => {
             const date = new Date();
             console.log("inne i handleSubmit", evt)
@@ -137,8 +163,13 @@ export function Dispense(props) {
                 }
                 )
 
+
                 updateValues(item.id, "J2Qf1jtZuj8", values.amount)
                 updateValues(item.id, "rQLFnNXXIL0", -values.amount)
+                handleStorage(date, item.id, values.from, values.to, values.amount)
+
+                let superObject = {data: props.storeData}
+                mutate2(superObject)
 
             })
             props.cart.length = 0;

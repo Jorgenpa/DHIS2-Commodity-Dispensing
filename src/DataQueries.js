@@ -53,3 +53,22 @@ export function deposit() {
         }),
     }
  }
+
+export function getStore() {
+    return {
+        dataStore: {
+            resource:"/dataStore/IN5320-G19/transactions",
+            params: {
+                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
+            }
+        }
+    }
+}
+
+ export function storeDeposit() {
+    return {
+        resource:"dataStore/IN5320-G19/transactions",
+        type: "update",
+        data: (transactions) => transactions
+    }
+ }
