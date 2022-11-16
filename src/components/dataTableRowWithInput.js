@@ -1,7 +1,9 @@
 import {
     DataTableCell,
     DataTableRow,
-    Input
+    InputField,
+    hasValue,
+    ReactFinalForm
 } from '@dhis2/ui'
 import { useState, useEffect } from 'react';
 
@@ -23,7 +25,7 @@ const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
             con: totalConsumption,
             end: newEndBalance,
             qua: dataValue.qua,
-            values: inputValue,
+            value: inputValue,
         })
     }, [inputValue])
 
@@ -35,7 +37,7 @@ const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
             <DataTableCell>{dataValue.qua}</DataTableCell>
             {replenish &&
                 <DataTableCell>
-                    <Input name={`value_${dataValue.id}`} onChange={updateInput} />
+                    <InputField required name={`value_${dataValue.id}`} onChange={updateInput} />
                 </DataTableCell>
             }
         </DataTableRow>

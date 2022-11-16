@@ -73,13 +73,24 @@ export function Overview(props) {
             setReplenish(!replenish)
         }
         const sendValues = async () => {
-            setReplenishValues(new Map(replenishValues.set("dateTime", new Date().toString())))
-            /* TODO: add to dataStore */
+            let oneIsEmpty = false
+            replenishValues.forEach(item => {
+                if (!item.value) {
+                    oneIsEmpty = true
+                    alert(`${item.name} is empty`)
+                    return
+                }
+            })
+            if (oneIsEmpty) {
+                setReplenishValues(new Map(replenishValues.set("dateTime", new Date().toString())))
+                /* TODO: add to dataStore */
 
-            // For å sette nye verdier
-            setReplenishValues(replenishValues.delete('dateTime'))
-            setDataValues(Array.from(replenishValues.values()))
-            setReplenishValues(new Map())
+                // For å sette nye verdier
+                setReplenishValues(replenishValues.delete('dateTime'))
+                setDataValues(Array.from(replenishValues.values()))
+                setReplenishValues(new Map())
+                setReplenish(false)
+            }
         }
         const handleInput = (id, value) => {
             setReplenishValues(new Map(replenishValues.set(id, value)))
@@ -113,7 +124,7 @@ export function Overview(props) {
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>
-                        {dataValues.sort((a,b) => a.name > b.name ? 1 : -1)?.map((dataValue, index) =>
+                        {dataValues.sort((a, b) => a.name > b.name ? 1 : -1)?.map((dataValue, index) =>
                             <DataTableRowWithInput key={index} dataValue={dataValue} replenish={replenish} handleInput={handleInput} />
                         )}
                     </DataTableBody>
