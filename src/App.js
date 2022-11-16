@@ -24,14 +24,11 @@ function MyApp() {
   const [activePage, setActivePage] = useState("Dispense");
   let cart = []
   let storeData = []
+  let restockData = []
 
-  const [activeTab, setActiveTab] = useState([]);
   const [tabIsSelected, setTabIsSelected] = useState(true)
-
-  function handleClick (e) {
+  function handleClick () {
     setTabIsSelected(!tabIsSelected)
-    e.disabled = true
-    console.log(tabIsSelected)
 
   }
 
@@ -79,7 +76,7 @@ function MyApp() {
             fd={facilityData} 
             cart={cart} 
             storeData={storeData}/>}
-          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} />}
+          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} restockData={restockData} />}
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "TransactionLog" && <TransactionLog 
           setTabIsSelected={setTabIsSelected}

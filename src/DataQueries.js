@@ -71,4 +71,24 @@ export function getStore() {
         type: "update",
         data: (transactions) => transactions
     }
+ 
+}
+
+export function getRestock() {
+    return {
+        dataStore: {
+            resource:"/dataStore/IN5320-G19/restockHistory",
+            params: {
+                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
+            }
+        }
+    }
+}
+
+ export function storeRestock() {
+    return {
+        resource:"dataStore/IN5320-G19/restockHistory",
+        type: "update",
+        data: (transactions) => transactions
+    }
  }
