@@ -13,9 +13,13 @@ const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
     const [newEndBalance, setNewEndBalance] = useState()
 
     const updateInput = (evt) => {
-        setTotalConsumption(parseInt(dataValue.con) + parseInt(evt.value))
-        setNewEndBalance(parseInt(dataValue.end) - parseInt(evt.value))
-        setInputValue(evt.value)
+        let newValue = parseInt(evt.value)
+        if(newValue > parseInt(dataValue.end))
+            newValue = parseInt(dataValue.end)
+
+        setTotalConsumption(parseInt(dataValue.con) + newValue)
+        setNewEndBalance(parseInt(dataValue.end) - newValue)
+        setInputValue(newValue)
     }
 
     useEffect(() => {
@@ -37,7 +41,7 @@ const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
             <DataTableCell>{dataValue.qua}</DataTableCell>
             {replenish &&
                 <DataTableCell>
-                    <InputField required name={`value_${dataValue.id}`} onChange={updateInput} />
+                    <InputField required type="number" name={`value_${dataValue.id}`} value={inputValue} max={dataValue.end} onChange={updateInput} />
                 </DataTableCell>
             }
         </DataTableRow>
