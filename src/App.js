@@ -65,7 +65,7 @@ function MyApp() {
           />
         </div>
         <div className={classes.right}>
-          {activePage === "Overview" && <Overview fd={facilityData} />}
+          {activePage === "Overview" && <Overview fd={facilityData} restockData={restockData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
           {activePage === "Dispense" && <Dispense 
             fd={facilityData} 

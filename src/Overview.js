@@ -1,4 +1,4 @@
-import { useDataQuery } from "@dhis2/app-runtime"
+import { useDataQuery, useDataMutation } from "@dhis2/app-runtime"
 import { CircularLoader } from "@dhis2/ui"
 import React from 'react';
 import { useState, useEffect } from 'react';
@@ -17,7 +17,7 @@ import {
     ButtonStrip
 } from '@dhis2/ui'
 
-import { fetchHospitalData, addDataStore } from "./DataQueries";
+import { fetchHospitalData, addDataStore, deposit, storeRestock } from "./DataQueries";
 import DataTableRowWithInput from "./components/dataTableRowWithInput";
 
 
@@ -30,6 +30,9 @@ export function Overview(props) {
             period: props.fd.period,
         }
     })
+
+    const [mutate] = useDataMutation(deposit());
+    const [mutate2] = useDataMutation(storeRestock());
     const [replenish, setReplenish] = useState(false)
     const [dataValues, setDataValues] = useState([])
     const [replenishValues, setReplenishValues] = useState(new Map())
@@ -78,15 +81,39 @@ export function Overview(props) {
         const handleClick = () => {
             setReplenish(!replenish)
         }
+
+        function getValues(commodity) {
+            let array = getTheValues()
+            console.log(array)
+            return array.find(value => value.id == commodity)
+          }
+
         const sendValues = async () => {
             let oneIsEmpty = false
+            data?.restockHistory?.data?.map(val => {
+                props.restockData.push(val)
+              })
+
             replenishValues.forEach(item => {
+                let endBalance = getValues(item.id)
                 if (!item.value) {
                     oneIsEmpty = true
                     return
                 }
+                if (item.value != undefined) {
+                    props.restockData.push([{
+                        commodityId: item.id,
+                        amount:item.value
+                   }])
+                   mutate({
+                    dataElement: item.id,
+                    categoryOptionCombo: "rQLFnNXXIL0",
+                    value: String(parseInt(item.value) + parseInt(endBalance.end))
+                })
+                }
             })
             if (!oneIsEmpty) {
+
                 setReplenishValues(new Map(replenishValues.set("dateTime", new Date().toString())))
                 /* TODO: add to dataStore */
 
@@ -95,6 +122,8 @@ export function Overview(props) {
                 setDataValues(Array.from(replenishValues.values()))
                 setReplenishValues(new Map())
                 setReplenish(false)
+                let superObject = {data: props.restockData}
+                mutate2(superObject)
             }
         }
 
