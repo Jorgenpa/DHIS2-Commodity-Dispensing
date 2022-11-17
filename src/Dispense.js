@@ -30,7 +30,7 @@ export function Dispense(props) {
             period: props.fd.period,
         }
     })
-    
+
 
     const [mutate] = useDataMutation(deposit());
     const [mutate2] = useDataMutation(storeDeposit());
@@ -75,8 +75,7 @@ export function Dispense(props) {
                     to: "",
                 }
             }
-        }
-        );
+        });
 
         const handleInput = (evt) => {
             const { name, value } = evt;
@@ -138,26 +137,26 @@ export function Dispense(props) {
                     categoryOptionCombo: consumption.category,
                     value: String(parseInt(consumption.value) + parseInt(values.amount)),
                 },
-                {
-                    dataElement: endBalance.id,
-                    categoryOptionCombo: endBalance.category,
-                    value: String(parseInt(endBalance.value) - parseInt(values.amount))
-                }
+                    {
+                        dataElement: endBalance.id,
+                        categoryOptionCombo: endBalance.category,
+                        value: String(parseInt(endBalance.value) - parseInt(values.amount))
+                    }
                 )
 
 
                 updateValues(item.id, "J2Qf1jtZuj8", values.amount)
                 updateValues(item.id, "rQLFnNXXIL0", -values.amount)
 
-                props.dispensingData.push( {
+                props.dispensingData.push({
                     date: date,
                     commodityId: item.id,
                     dispensedBy: values.from,
                     dispensedTo: values.to,
-                    amount:values.amount
+                    amount: values.amount
                 })
 
-                let superObject = {data: props.dispensingData}
+                let superObject = { data: props.dispensingData }
                 mutate2(superObject)
 
             })
@@ -173,7 +172,7 @@ export function Dispense(props) {
                     </AlertBar>
                 }
                 <SingleSelect selected={values?.commodity} placeholder="Commodity" className="select" onChange={handleSelect}>
-                    {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
+                    {array?.sort((a, b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
                         <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
                     )}
                 </SingleSelect>

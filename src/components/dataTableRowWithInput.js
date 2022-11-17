@@ -13,13 +13,13 @@ const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
     const [newEndBalance, setNewEndBalance] = useState()
 
     const updateInput = (evt) => {
-        let newValue = parseInt(evt.value)
+        /* let newValue = parseInt(evt.value)
         if(newValue > parseInt(dataValue.end))
-            newValue = parseInt(dataValue.end)
+            newValue = parseInt(dataValue.end) */
 
-        setTotalConsumption(parseInt(dataValue.con) + newValue)
-        setNewEndBalance(parseInt(dataValue.end) - newValue)
-        setInputValue(newValue)
+        setTotalConsumption(parseInt(dataValue.con) + parseInt(evt.value))
+        setNewEndBalance(parseInt(dataValue.end) - parseInt(evt.value))
+        setInputValue(evt.value)
     }
 
     useEffect(() => {

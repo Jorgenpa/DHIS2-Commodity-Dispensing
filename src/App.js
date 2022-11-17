@@ -11,7 +11,7 @@ import { DataElements } from "./DataElements";
 import { Overview } from "./Overview";
 import { NeighborOverview } from "./Neighbors";
 import { Replenish } from "./Replenish";
-import { TransactionLog} from "./TransactionLog";
+import { TransactionLog } from "./TransactionLog";
 
 function MyApp() {
 
@@ -19,16 +19,10 @@ function MyApp() {
   const { loading, error, data } = useDataQuery(fetchNeighbors())
 
   // Let commodity overview be the start page
-  const [activePage, setActivePage] = useState("Overview");
+  const [activePage, setActivePage] = useState("TransactionLog");
   let cart = []
   let dispensingData = []
   let restockData = []
-
-  const [tabIsSelected, setTabIsSelected] = useState(true)
-  function handleClick () {
-    setTabIsSelected(!tabIsSelected)
-
-  }
 
   function activePageHandler(page) {
     setActivePage(page);
@@ -47,10 +41,10 @@ function MyApp() {
     const facilities = []
 
     data?.orgUnits?.children?.map((facility) => {
-      if (facility.id !== "MnfykVk3zin") 
-        facilities.push({name: facility.displayName, id: facility.id})
+      if (facility.id !== "MnfykVk3zin")
+        facilities.push({ name: facility.displayName, id: facility.id })
     })
-            
+
     // Variables about our hospital for reuse later 
     let facilityData = {}
     facilityData.displayName = "Senjehun MCHP"
@@ -84,7 +78,7 @@ function MyApp() {
         </div>
       </div>
     );
-  } 
+  }
 }
 
 export default MyApp;
