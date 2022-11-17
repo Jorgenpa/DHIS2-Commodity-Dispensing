@@ -17,8 +17,19 @@ export function fetchHospitalData() {
                 fields: "name,id,dataSetElements[dataElement[name,id,created,categoryCombo[name,id]]]",
                 filter: "name:eq:Life-Saving Commodities"
             }
-        }
-    }
+        },
+        restockHistory: {
+            resource: "/dataStore/IN5320-G19/restockHistory",
+            params: {
+                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
+            }
+        },
+        dispensingHistory: {
+            resource:"/dataStore/IN5320-G19/transactions",
+            params: {
+                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
+            }
+    }   }
 }
 
 
@@ -54,6 +65,7 @@ export function deposit() {
     }
  }
 
+ /*
 export function getStore() {
     return {
         dataStore: {
@@ -64,16 +76,18 @@ export function getStore() {
         }
     }
 }
+*/
 
  export function storeDeposit() {
     return {
+        
         resource:"dataStore/IN5320-G19/transactions",
         type: "update",
         data: (transactions) => transactions
     }
  
 }
-
+/*
 export function getRestock() {
     return {
         dataStore: {
@@ -84,6 +98,7 @@ export function getRestock() {
         }
     }
 }
+*/
 
  export function storeRestock() {
     return {

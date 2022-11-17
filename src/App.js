@@ -21,7 +21,7 @@ function MyApp() {
   // Let commodity overview be the start page
   const [activePage, setActivePage] = useState("Overview");
   let cart = []
-  let storeData = []
+  let dispensingData = []
   let restockData = []
 
   const [tabIsSelected, setTabIsSelected] = useState(true)
@@ -71,13 +71,14 @@ function MyApp() {
           {activePage === "Dispense" && <Dispense 
             fd={facilityData} 
             cart={cart} 
-            storeData={storeData}/>}
+            dispensingData={dispensingData}/>}
           {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} restockData={restockData} />}
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "TransactionLog" && <TransactionLog 
           setTabIsSelected={setTabIsSelected}
           tabIsSelected={tabIsSelected}
-          handleClick={handleClick}/>}
+          handleClick={handleClick}
+          fd={facilityData}/>}
         </div>
       </div>
     );

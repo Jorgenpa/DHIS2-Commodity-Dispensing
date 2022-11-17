@@ -20,13 +20,11 @@ import {
 import { fetchDataStoreMutation, fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
 import { storeDeposit } from "./DataQueries";
-import { getStore } from "./DataQueries";
 
 
 // Retrieves data from the API to fill the select-option
 export function Dispense(props) {
-    const { data:data2, error: error2, loading:loading2} = useDataQuery(getStore());
-    const { loading:loading1, error:error1, data:data1 } = useDataQuery(fetchHospitalData(), {
+    const { loading, error, data } = useDataQuery(fetchHospitalData(), {
         variables: {
             orgUnit: props.fd.orgUnit,
             period: props.fd.period,
@@ -41,7 +39,7 @@ export function Dispense(props) {
     const [cartVisible, setCartVisible] = useState(false)
     const [categoryValues, setCategoryValues] = useState([])
 
-    data1?.dataValueSets?.dataValues?.map(dataValue => {
+    data?.dataValueSets?.dataValues?.map(dataValue => {
         categoryValues.push({
             "id": dataValue.dataElement,
             "category": dataValue.categoryOptionCombo,
@@ -49,20 +47,20 @@ export function Dispense(props) {
         })
     })
 
-    if (error1) {
+    if (error) {
         return <span>ERROR: {error.message}</span>
     }
 
-    if (loading1 || loading2) {
+    if (loading) {
         return <CircularLoader large />
     }
 
-    if (data1) {
+    if (data) {
         //console.log(data);
         let array = []
         let meme = {}
 
-        data1?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue => {
+        data?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue => {
             array.push({
                 "id": dataValue.dataElement.id,
                 "name": dataValue.dataElement.name.split("-")[1].trim()
@@ -124,29 +122,13 @@ export function Dispense(props) {
             categoryValues[index].value = String(parseInt(categoryValues[index].value) + parseInt(newValue))
         }
 
-        function handleStorage(dato, id, by, to, amount) {
-
-            data2?.dataStore?.data?.map(val => {
-                props.storeData.push(val)
-            })
-    
-            console.log(props.storeData)
-    
-            props.storeData.push( {
-                date: dato,
-                commodityId: id,
-                dispensedBy: by,
-                dispensedTo: to,
-                amount:amount
-            })
-            
-    
-            console.log(props.storeData)
-        }
-
         const handleSubmit = (evt) => {
             const date = new Date();
             console.log("inne i handleSubmit", evt)
+
+            data?.dispensingHistory?.data?.map(val => {
+                props.dispensingData.push(val)
+            })
 
             props.cart.map(item => {
                 let consumption = getValues(item.id, "J2Qf1jtZuj8")
@@ -166,13 +148,21 @@ export function Dispense(props) {
 
                 updateValues(item.id, "J2Qf1jtZuj8", values.amount)
                 updateValues(item.id, "rQLFnNXXIL0", -values.amount)
-                handleStorage(date, item.id, values.from, values.to, values.amount)
 
-                let superObject = {data: props.storeData}
+                props.dispensingData.push( {
+                    date: date,
+                    commodityId: item.id,
+                    dispensedBy: values.from,
+                    dispensedTo: values.to,
+                    amount:values.amount
+                })
+
+                let superObject = {data: props.dispensingData}
                 mutate2(superObject)
 
             })
             props.cart.length = 0;
+            props.dispensingData.length = 0;
         }
 
         return (

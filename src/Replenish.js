@@ -27,12 +27,11 @@ import {
     Button,
     Input,
 } from '@dhis2/ui'
-import { fetchHospitalData, getRestock } from "./DataQueries";
+import { fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
 import { storeRestock } from "./DataQueries";
 
 export function Replenish(props) {
-  const { data:data2, error: error2, loading:loading2} = useDataQuery(getRestock());
   const { loading, error, data } = useDataQuery(fetchHospitalData(), {
     variables: {
         orgUnit: props.fd.orgUnit,
@@ -80,18 +79,11 @@ export function Replenish(props) {
     categoryValues[index].value = String(parseInt(categoryValues[index].value) + parseInt(newValue))
   }
 
-  function handleRestockStore (id, amount) {
-    data2?.dataStore?.data?.map(val => {
-      props.restockData.push(val)
-  })
-    props.restockData.push({
-      commodityId: id,
-      amount:amount
-})
-
-  }
-
   function handleSend () {
+
+    data?.restockHistory?.data?.map(val => {
+      props.restockData.push(val)
+    })
     
     for (let i = 0; i < array.length; i++) {
       let val = values[array[i].name]
@@ -105,13 +97,20 @@ export function Replenish(props) {
           categoryOptionCombo: "rQLFnNXXIL0",
           value: String(parseInt(val) + parseInt(endBalance.value))
         })
-        let superObject = {data: props.restockData}
-        handleRestockStore(array[i].id, val)
-        mutate2(superObject)
+
+        props.restockData.push([{
+          commodityId: array[i].id,
+          amount:val
+     }])
 
         updateValues(array[i].id, "rQLFnNXXIL0", val)
       }
     }
+    let superObject = {data: props.restockData}
+    mutate2(superObject)
+
+    props.restockData.length = 0;
+
   }
 
   if (error) {
