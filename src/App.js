@@ -5,8 +5,6 @@ import { useDataQuery } from "@dhis2/app-runtime"
 import { CircularLoader } from "@dhis2/ui"
 
 import { fetchNeighbors } from "./DataQueries";
-import { Browse } from "./Browse";
-import { Insert } from "./Insert";
 import { Dispense } from "./Dispense";
 import { Navigation } from "./Navigation";
 import { DataElements } from "./DataElements";
@@ -20,7 +18,7 @@ function MyApp() {
   const { loading, error, data } = useDataQuery(fetchNeighbors())
 
   // Let commodity overview be the start page
-  const [activePage, setActivePage] = useState("Dispense");
+  const [activePage, setActivePage] = useState("Overview");
   let cart = []
 
   const [itemIsSelected, setItemIsSelected] = useState(false)
@@ -67,8 +65,6 @@ function MyApp() {
           />
         </div>
         <div className={classes.right}>
-          {activePage === "Browse" && <Browse />}
-          {activePage === "Insert" && <Insert />}
           {activePage === "Overview" && <Overview fd={facilityData} />}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
           {activePage === "Dispense" && <Dispense 

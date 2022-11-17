@@ -86,7 +86,7 @@ export function NeighborOverview(props) {
                     <DataTableHead>
                         <TableRowHead>
                             <DataTableColumnHeader>Commodity</DataTableColumnHeader>
-                            <DataTableColumnHeader>In stock</DataTableColumnHeader>
+                            <DataTableColumnHeader>In Stock</DataTableColumnHeader>
                         </TableRowHead>
                     </DataTableHead>
                     <DataTableBody>

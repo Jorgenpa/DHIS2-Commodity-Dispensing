@@ -13,7 +13,8 @@ import {
     DataTableToolbar,
     Field,
     InputField,
-    Button
+    Button,
+    ButtonStrip
 } from '@dhis2/ui'
 
 import { fetchHospitalData, addDataStore } from "./DataQueries";
@@ -114,18 +115,24 @@ export function Overview(props) {
                 <DataTableToolbar>
                     <Field label={props.fd.displayName}></Field>
                     <Field>
-                        <InputField type="month" name={`monthToDisplay`} value={period} onChange={handlePeriod} />
-                        {/* JØRGEN SKRIV HER */}
-                        {`2021-10` == period &&
-                            <Button name="Basic button" onClick={handleClick} value="default">
-                                {replenish ? "Close" : "Replenish"}
-                            </Button>
-                        }
-                        {replenish &&
-                            <Button name="Basic button" onClick={sendValues} value="default">
-                                Send
-                            </Button>
-                        }
+                        <div style={{width: "fit-content"}}>
+                            <InputField label="Period: " id="periodInputField" type="month" name={`monthToDisplay`} value={period} onChange={handlePeriod} />
+                        </div>
+                    </Field>
+                    <Field>
+                        <ButtonStrip middle>
+                            {/* There is no data for 2022 available, so 2021-10 is a placeholder for 'current period' */}
+                            {`2021-10` == period &&
+                                <Button name="Basic button" onClick={handleClick} value="default">
+                                    {replenish ? "Close" : "Replenish"}
+                                </Button>
+                            }
+                            {replenish &&
+                                <Button name="Basic button" onClick={sendValues} value="default">
+                                    Send
+                                </Button>
+                            }
+                        </ButtonStrip>
                     </Field>
                 </DataTableToolbar>
                 <DataTable>
@@ -133,10 +140,10 @@ export function Overview(props) {
                         <TableRowHead>
                             <DataTableColumnHeader>Commodity</DataTableColumnHeader>
                             <DataTableColumnHeader>Consumption</DataTableColumnHeader>
-                            <DataTableColumnHeader>End balance</DataTableColumnHeader>
-                            <DataTableColumnHeader>Quantity to be ordered</DataTableColumnHeader>
+                            <DataTableColumnHeader>End Balance</DataTableColumnHeader>
+                            <DataTableColumnHeader>Quantity To Be Ordered</DataTableColumnHeader>
                             {replenish &&
-                                <DataTableColumnHeader>Quantity</DataTableColumnHeader>
+                                <DataTableColumnHeader>Quantity To Add</DataTableColumnHeader>
                             }
                         </TableRowHead>
                     </DataTableHead>

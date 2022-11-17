@@ -58,16 +58,19 @@ The app consists of the following components:
 
 #### **Overview** 
 The Overview component lets the user look at the stock balance of all the commodities Senjehun MCHP has in its system. They can see the consumption and end balance for the current period, and the quantity to be ordered for next period. 
-From here the user can also replenish stock. 
+From here the user can also replenish commodities. The stock in Overview is mutated accordingly to the entered restock and the data is logged in the dataStore endpoint.
 
 #### **Overview Neighbors** 
 The neighbors-component allows the user to enter the neighboring hospitals stock listings, to see whether those have sufficient stock in case of outage in their own stock.
 
 #### **Dispensing** 
-Allows the user to dispense the different commodities that are in stock. The user enters the type of commodity, amount, as well as who it is from and to. If successfull, the stock in overview will be updated and logging information is submitted to the dataStore API endpoint.
+Allows the user to dispense the different commodities that are in stock. The user enters the type of commodity, amount, as well as who it is from and to. If successfull, the stock in overview will be updated and logging-information is submitted to the dataStore API endpoint. 
 
 #### **Replenish** 
 Allows the user to organize a restock of commodities. The stock in Overview is mutated accordingly to the entered restock and the data is logged in the dataStore endpoint. 
+
+#### **Logs** 
+TBC
 
 #### **Data Elements** 
 Displays a list of all the data elements in the Life-Saving Commodities dataset. When a commodity is selected its identificator, display name and creation data is presented. 
