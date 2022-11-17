@@ -188,6 +188,7 @@ export function Dispense(props) {
                     </SingleSelect>
                     <Input
                         name="amount"
+                        type="number"
                         placeholder="Amount"
                         onChange={handleInput}
                         value={values?.amount}

@@ -9,10 +9,6 @@ import {
   DataTableHead,
   DataTableBody,
   DataTableRow,
-  TableRowHead,
-  DataTableToolbar,
-  Field,
-  Button,
   TabBar,
   Tab,
 } from '@dhis2/ui'
@@ -40,17 +36,17 @@ export function TransactionLog(props) {
 
   if (data) {
 
-    let array = []
+    let dispenseArray = []
     data?.dispensingHistory?.data?.map(val => {
-      array.push(val)
+      dispenseArray.push(val)
     })
-    let array2 = []
+    let initialRestockArray = []
 
     data?.restockHistory?.data?.map(val => {
-      array2.push(val)
+      initialRestockArray.push(val)
     })
 
-    let array3 = [].concat.apply([], array2);
+    let restockArray = [].concat.apply([], initialRestockArray);
 
     const handleClick = (tab) => {
       setSelectedTab(tab)
@@ -75,7 +71,7 @@ export function TransactionLog(props) {
               <DataTableColumnHeader>Amount</DataTableColumnHeader>
             </DataTableHead>
             <DataTableBody>
-              {array.map((item, index) =>
+              {dispenseArray.map((item, index) =>
                 <DataTableRow key={index}>
                   <DataTableCell>
                     {item.date}
@@ -106,7 +102,7 @@ export function TransactionLog(props) {
               <DataTableColumnHeader>Amount</DataTableColumnHeader>
             </DataTableHead>
             <DataTableBody>
-              {array3.map((item, index) =>
+              {restockArray.map((item, index) =>
                 <DataTableRow key={index}>
                   <DataTableCell>
                     {item.commodityId}
