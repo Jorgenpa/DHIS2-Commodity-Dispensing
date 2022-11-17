@@ -18,7 +18,7 @@ import { fetchHospitalData } from "./DataQueries";
 
 
 // Retrieves data from the API and presents information about the different commodities
-export function DataElements(props) {  
+export function DataElements(props) {
     const { loading, error, data } = useDataQuery(fetchHospitalData(), {
         variables: {
             orgUnit: props.fd.orgUnit,
@@ -58,16 +58,16 @@ export function DataElements(props) {
         return (
             <div>
                 <Menu>
-                    <DataTableToolbar style={{ border: "solid gray 1px", background:"lightgray" }} >
-                        <strong><Field label={ dataSetName }></Field></strong>
+                    <DataTableToolbar style={{ border: "solid gray 1px", background: "lightgray" }} >
+                        <strong><Field label={dataSetName}></Field></strong>
                     </DataTableToolbar>
-                    {array?.sort((a,b) => a.name > b.name ? 1 : -1).map(dataset =>
-                        <MenuItem className={classes.menuitem} key={dataset.id} label={dataset.name} onClick={showDetails} value={JSON.stringify(dataset)} />
+                    {array?.sort((a, b) => a.name > b.name ? 1 : -1).map(dataset =>
+                        <MenuItem active={currentDataset?.id == dataset.id} className={classes.menuitem} key={dataset.id} label={dataset.name} onClick={showDetails} value={JSON.stringify(dataset)} />
                     )}
                 </Menu>
                 {currentDataset &&
                     <DataTable>
-                        <DataTableHead style={{ background:"lightgray" }} >
+                        <DataTableHead style={{ background: "lightgray" }} >
                             <TableRowHead>
                                 <TableCellHead>
                                     ID
@@ -97,6 +97,6 @@ export function DataElements(props) {
                 }
             </div>
         )
-        
+
     }
 }
