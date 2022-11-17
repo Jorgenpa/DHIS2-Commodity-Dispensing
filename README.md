@@ -69,8 +69,8 @@ Allows the user to dispense the different commodities that are in stock. The use
 #### **Replenish** 
 Allows the user to organize a restock of commodities. The stock in Overview is mutated accordingly to the entered restock and the data is logged in the dataStore endpoint. 
 
-#### **Logs** 
-TBC
+#### **Transaction Log** 
+Lets the user look at the dispensing logs and restock logs of commodities. The data is pulled from the dataStore endpoint. 
 
 #### **Data Elements** 
 Displays a list of all the data elements in the Life-Saving Commodities dataset. When a commodity is selected its identificator, display name and creation data is presented. 

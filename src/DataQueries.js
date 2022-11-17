@@ -1,5 +1,6 @@
 
-// The data query to GET dataValueSets and dataSets for our hospital
+// The data queries to GET dataValueSets and dataSets for our hospital, 
+// and the queries to retrieve the transaction log and the restock history stored in dataStore
 export function fetchHospitalData() {
     return {
         dataValueSets: {
@@ -78,6 +79,7 @@ export function getStore() {
 }
 */
 
+// The data query to update the transaction log stored in dataStore
  export function storeDeposit() {
     return {
         
@@ -100,6 +102,7 @@ export function getRestock() {
 }
 */
 
+// The data query to update the restock history stored in dataStore
  export function storeRestock() {
     return {
         resource:"dataStore/IN5320-G19/restockHistory",

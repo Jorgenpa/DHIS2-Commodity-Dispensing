@@ -54,7 +54,7 @@ function MyApp() {
     // Variables about our hospital for reuse later 
     let facilityData = {}
     facilityData.displayName = "Senjehun MCHP"
-    facilityData.period = "202110"
+    facilityData.period = "202110" // Current period is set to 202110 since there is no data available for 2022
     facilityData.orgUnit = "MnfykVk3zin"
 
     return (
@@ -71,14 +71,16 @@ function MyApp() {
           {activePage === "Dispense" && <Dispense 
             fd={facilityData} 
             cart={cart} 
-            dispensingData={dispensingData}/>}
+            dispensingData={dispensingData}/>
+          }
           {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} restockData={restockData} />}
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "TransactionLog" && <TransactionLog 
-          setTabIsSelected={setTabIsSelected}
-          tabIsSelected={tabIsSelected}
-          handleClick={handleClick}
-          fd={facilityData}/>}
+            setTabIsSelected={setTabIsSelected}
+            tabIsSelected={tabIsSelected}
+            handleClick={handleClick}
+            fd={facilityData}/>
+          }
         </div>
       </div>
     );
