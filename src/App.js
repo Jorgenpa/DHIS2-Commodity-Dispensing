@@ -24,6 +24,11 @@ function MyApp() {
   let dispensingData = []
   let restockData = []
 
+  const [tabIsSelected, setTabIsSelected] = useState(true)
+  function handleClick () {
+    setTabIsSelected(!tabIsSelected)
+  }
+
   function activePageHandler(page) {
     setActivePage(page);
   }
