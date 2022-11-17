@@ -50,6 +50,8 @@ export function TransactionLog(props) {
       array2.push(val)
     })
 
+    let array3 = [].concat.apply([], array2);
+
     const handleClick = (tab) => {
       setSelectedTab(tab)
     }
@@ -104,7 +106,7 @@ export function TransactionLog(props) {
               <DataTableColumnHeader>Amount</DataTableColumnHeader>
             </DataTableHead>
             <DataTableBody>
-              {array.map((item, index) =>
+              {array3.map((item, index) =>
                 <DataTableRow key={index}>
                   <DataTableCell>
                     {item.commodityId}
