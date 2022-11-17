@@ -11,6 +11,7 @@ import { DataElements } from "./DataElements";
 import { Overview } from "./Overview";
 import { NeighborOverview } from "./Neighbors";
 import { Replenish } from "./Replenish";
+import { TransactionLog} from "./TransactionLog";
 
 function MyApp() {
 
@@ -20,14 +21,14 @@ function MyApp() {
   // Let commodity overview be the start page
   const [activePage, setActivePage] = useState("Overview");
   let cart = []
+  let storeData = []
+  let restockData = []
 
-  const [itemIsSelected, setItemIsSelected] = useState(false)
-  const [itemData, setItemData] = useState([{}])
+  const [tabIsSelected, setTabIsSelected] = useState(true)
+  function handleClick () {
+    setTabIsSelected(!tabIsSelected)
 
-  function handleClick (e) {
-    setItemIsSelected(!itemIsSelected)
-    setItemData(e)
-}
+  }
 
   function activePageHandler(page) {
     setActivePage(page);
@@ -70,13 +71,13 @@ function MyApp() {
           {activePage === "Dispense" && <Dispense 
             fd={facilityData} 
             cart={cart} 
-            setItemIsSelected={setItemIsSelected}
-            setItemData={setItemData}
-            itemData={itemData}
-            itemIsSelected={itemIsSelected}
-            handleClick={handleClick}/>}
-          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} />}
+            storeData={storeData}/>}
+          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} restockData={restockData} />}
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
+          {activePage === "TransactionLog" && <TransactionLog 
+          setTabIsSelected={setTabIsSelected}
+          tabIsSelected={tabIsSelected}
+          handleClick={handleClick}/>}
         </div>
       </div>
     );
