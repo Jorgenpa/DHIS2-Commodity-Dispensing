@@ -39,6 +39,7 @@ export function Dispense(props) {
     const [errorMessage, setErrorMessage] = useState("")
     const [cartVisible, setCartVisible] = useState(false)
     const [categoryValues, setCategoryValues] = useState([])
+    const [numOfComForSelected, setNumOfComForSelected] = useState()
 
     data?.dataValueSets?.dataValues?.map(dataValue => {
         categoryValues.push({
@@ -60,10 +61,13 @@ export function Dispense(props) {
         let array = []
         let meme = {}
 
+        const endBalances = data?.dataValueSets?.dataValues.filter(item => item.categoryOptionCombo == "rQLFnNXXIL0")
+
         data?.dataSets?.dataSets[0]?.dataSetElements?.map(dataValue => {
             array.push({
                 "id": dataValue.dataElement.id,
-                "name": dataValue.dataElement.name.split("-")[1].trim()
+                "name": dataValue.dataElement.name.split("-")[1].trim(),
+                "numOfCom": endBalances.filter(item => item.dataElement == dataValue.dataElement.id)[0].value
             })
             meme = {
                 ...meme,
@@ -79,14 +83,18 @@ export function Dispense(props) {
 
         const handleInput = (evt) => {
             const { name, value } = evt;
+            let newValue = value
+            if (numOfComForSelected && name == "amount" && parseInt(numOfComForSelected) < parseInt(value)) {
+                newValue = numOfComForSelected
+            }
             setValues(prevState => ({
                 ...prevState,
-                [name]: value
+                [name]: newValue
             }));
         }
 
         const handleSelect = (evt) => {
-            console.log(evt);
+            setNumOfComForSelected(endBalances.filter(item => item.dataElement == evt.selected)[0].value)
             setValues(prevState => ({
                 ...prevState,
                 commodity: evt.selected
@@ -175,7 +183,7 @@ export function Dispense(props) {
 
                     <SingleSelect selected={values?.commodity} placeholder="Commodity" className="select" onChange={handleSelect}>
                         {array?.sort((a, b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
-                            <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
+                            <SingleSelectOption key={index} name="commodity" label={`${commodity.name} (${commodity.numOfCom})`} value={commodity.id} />
                         )}
                     </SingleSelect>
                     <Input
