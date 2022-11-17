@@ -98,14 +98,22 @@ export function TransactionLog(props) {
           :
           <DataTable>
             <DataTableHead>
+            <DataTableColumnHeader>Date</DataTableColumnHeader>
               <DataTableColumnHeader>ID</DataTableColumnHeader>
+              <DataTableColumnHeader>Commodity</DataTableColumnHeader>
               <DataTableColumnHeader>Amount</DataTableColumnHeader>
             </DataTableHead>
             <DataTableBody>
               {restockArray.map((item, index) =>
                 <DataTableRow key={index}>
                   <DataTableCell>
+                    {item.date}
+                  </DataTableCell>
+                  <DataTableCell>
                     {item.commodityId}
+                  </DataTableCell>
+                  <DataTableCell>
+                    {item.commodityName}
                   </DataTableCell>
                   <DataTableCell>
                     {item.amount}
