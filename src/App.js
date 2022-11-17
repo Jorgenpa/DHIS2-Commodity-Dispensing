@@ -24,11 +24,6 @@ function MyApp() {
   let dispensingData = []
   let restockData = []
 
-  const [tabIsSelected, setTabIsSelected] = useState("dispensing")
-  function handleClick(tab) {
-    setTabIsSelected(tab)
-  }
-
   function activePageHandler(page) {
     setActivePage(page);
   }
@@ -73,11 +68,7 @@ function MyApp() {
             dispensingData={dispensingData} />}
           {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} restockData={restockData} />}
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
-          {activePage === "TransactionLog" && <TransactionLog
-            setTabIsSelected={setTabIsSelected}
-            tabIsSelected={tabIsSelected}
-            handleClick={handleClick}
-            fd={facilityData} />}
+          {activePage === "TransactionLog" && <TransactionLog fd={facilityData} />}
         </div>
       </div>
     );

@@ -27,6 +27,7 @@ export function TransactionLog(props) {
       period: props.fd.period,
     }
   })
+  const [selectedTab, setSelectedTab] = useState("replenish")
 
   if (error) {
     return <span>ERROR: {error.message}</span>
@@ -48,15 +49,19 @@ export function TransactionLog(props) {
       array2.push(val)
     })
 
+    const handleClick = (tab) => {
+      setSelectedTab(tab)
+    }
+
     return (
       <>
         <div style={{ width: "fit-content" }}>
           <TabBar>
-            <Tab id="dispensing" onClick={() => { props.handleClick("dispensing") }} >Dispensing</Tab>
-            <Tab id="restock" onClick={() => { props.handleClick("restock") }}>Restock</Tab>
+            <Tab id="dispensing" onClick={() => { handleClick("dispensing") }} >Dispensing</Tab>
+            <Tab id="restock" onClick={() => { handleClick("restock") }}>Restock</Tab>
           </TabBar>
         </div>
-        {props.tabIsSelected == "dispensing" ?
+        {selectedTab == "dispensing" ?
           <DataTable>
             <DataTableHead>
               <DataTableColumnHeader>Date</DataTableColumnHeader>
