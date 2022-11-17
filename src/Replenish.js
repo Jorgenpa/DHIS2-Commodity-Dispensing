@@ -80,6 +80,7 @@ export function Replenish(props) {
   }
 
   function handleSend () {
+    const date = new Date();
 
     data?.restockHistory?.data?.map(val => {
       props.restockData.push(val)
@@ -99,7 +100,9 @@ export function Replenish(props) {
         })
 
         props.restockData.push([{
+          date: date,
           commodityId: array[i].id,
+          commodityName: array[i].name,
           amount:val
      }])
 

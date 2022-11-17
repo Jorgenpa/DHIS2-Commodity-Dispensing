@@ -58,6 +58,7 @@ export function Dispense(props) {
     }
 
     if (data) {
+
         let array = []
         let meme = {}
 
@@ -106,12 +107,12 @@ export function Dispense(props) {
                 setErrorMessage("You are missing values")
                 return
             }
-
             props.cart.push({
                 "id": values.commodity,
+                "name": array.find(value=> value.id == values.commodity).name,
                 "amount": values.amount,
                 "from": values.from,
-                "to": values.to
+                "to": values.to,
             })
             console.log(props.cart)
         }
@@ -159,9 +160,11 @@ export function Dispense(props) {
                 props.dispensingData.push({
                     date: date,
                     commodityId: item.id,
+                    commodityName: item.name,
                     dispensedBy: values.from,
                     dispensedTo: values.to,
-                    amount: values.amount
+                    amount: values.amount,
+                    org: props.fd.org
                 })
 
                 let superObject = { data: props.dispensingData }
