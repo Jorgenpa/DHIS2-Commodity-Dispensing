@@ -13,6 +13,7 @@ import {
 } from '@dhis2/ui'
 import React, { useState } from "react"
 
+import classes from "./App.module.css";
 import { fetchHospitalData } from "./DataQueries";
 
 
@@ -54,16 +55,14 @@ export function DataElements(props) {
             })
         );
 
-        //array.sort()
-
         return (
             <div>
                 <Menu>
-                    <DataTableToolbar style={{ background:"lightgray" }} >
+                    <DataTableToolbar style={{ border: "solid gray 1px", background:"lightgray" }} >
                         <strong><Field label={ dataSetName }></Field></strong>
                     </DataTableToolbar>
                     {array?.sort((a,b) => a.name > b.name ? 1 : -1).map(dataset =>
-                        <MenuItem key={dataset.id} label={dataset.name} onClick={showDetails} value={JSON.stringify(dataset)} />
+                        <MenuItem className={classes.menuitem} key={dataset.id} label={dataset.name} onClick={showDetails} value={JSON.stringify(dataset)} />
                     )}
                 </Menu>
                 {currentDataset &&

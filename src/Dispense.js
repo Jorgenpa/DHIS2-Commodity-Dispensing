@@ -20,6 +20,7 @@ import {
 import { fetchDataStoreMutation, fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
 import { storeDeposit } from "./DataQueries";
+import "./dispense.css"
 
 
 // Retrieves data from the API to fill the select-option
@@ -56,7 +57,6 @@ export function Dispense(props) {
     }
 
     if (data) {
-        //console.log(data);
         let array = []
         let meme = {}
 
@@ -166,85 +166,88 @@ export function Dispense(props) {
 
         return (
             <>
-                {errorMessage &&
-                    <AlertBar warning>
-                        {errorMessage}
-                    </AlertBar>
-                }
-                <SingleSelect selected={values?.commodity} placeholder="Commodity" className="select" onChange={handleSelect}>
-                    {array?.sort((a, b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
-                        <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
-                    )}
-                </SingleSelect>
-                <Input
-                    name="amount"
-                    placeholder="Amount"
-                    onChange={handleInput}
-                    value={values?.amount}
-                />
-                <Input
-                    name="from"
-                    placeholder="From"
-                    onChange={handleInput}
-                    value={values?.from}
-                />
-                <Input
-                    name="to"
-                    placeholder="To"
-                    onChange={handleInput}
-                    value={values?.to}
-                />
-                <Button name="AddToCart" onClick={handleCart}>
-                    ADD TO CART
-                </Button>
-                <Button name="Cart" onClick={showCart}>
-                    {(cartVisible ? "HIDE" : "VIEW")} CART
-                </Button>
-                {cartVisible &&
-                    <>
-                        {props.cart.length > 0 &&
-                            <Button name="Submit" onClick={handleSubmit} value="submit">
-                                SEND
-                            </Button>
-                        }
-                        <DataTable>
-                            <TableHead>
-                                <DataTableRow>
-                                    <DataTableColumnHeader>
-                                        Commodity
-                                    </DataTableColumnHeader>
-                                    <DataTableColumnHeader>
-                                        Amount
-                                    </DataTableColumnHeader>
-                                    <DataTableColumnHeader>
-                                        From
-                                    </DataTableColumnHeader>
-                                    <DataTableColumnHeader>
-                                        To
-                                    </DataTableColumnHeader>
-                                </DataTableRow>
-                            </TableHead>
-                            <TableBody>
-                                {props.cart.map((item, index) =>
-                                    <DataTableRow key={index}>
-                                        <DataTableCell>
-                                            {item.id}
-                                        </DataTableCell>
-                                        <DataTableCell>
-                                            {item.amount}
-                                        </DataTableCell>
-                                        <DataTableCell>
-                                            {item.from}
-                                        </DataTableCell>
-                                        <DataTableCell>
-                                            {item.to}
-                                        </DataTableCell>
+                <div className="dispensing" >
+                    {errorMessage &&
+                        <AlertBar warning>
+                            {errorMessage}
+                        </AlertBar>
+                    }
+
+                    <SingleSelect selected={values?.commodity} placeholder="Commodity" className="select" onChange={handleSelect}>
+                        {array?.sort((a, b) => a.name > b.name ? 1 : -1).map((commodity, index) =>
+                            <SingleSelectOption key={index} name="commodity" label={commodity.name} value={commodity.id} />
+                        )}
+                    </SingleSelect>
+                    <Input
+                        name="amount"
+                        placeholder="Amount"
+                        onChange={handleInput}
+                        value={values?.amount}
+                    />
+                    <Input
+                        name="from"
+                        placeholder="From"
+                        onChange={handleInput}
+                        value={values?.from}
+                    />
+                    <Input
+                        name="to"
+                        placeholder="To"
+                        onChange={handleInput}
+                        value={values?.to}
+                    />
+                    <Button name="AddToCart" onClick={handleCart}>
+                        ADD TO CART
+                    </Button>
+                    <Button name="Cart" onClick={showCart}>
+                        {(cartVisible ? "HIDE" : "VIEW")} CART
+                    </Button>
+                    {cartVisible &&
+                        <>
+                            {props.cart.length > 0 &&
+                                <Button name="Submit" onClick={handleSubmit} value="submit">
+                                    SEND
+                                </Button>
+                            }
+                            <DataTable>
+                                <TableHead>
+                                    <DataTableRow>
+                                        <DataTableColumnHeader>
+                                            Commodity
+                                        </DataTableColumnHeader>
+                                        <DataTableColumnHeader>
+                                            Amount
+                                        </DataTableColumnHeader>
+                                        <DataTableColumnHeader>
+                                            From
+                                        </DataTableColumnHeader>
+                                        <DataTableColumnHeader>
+                                            To
+                                        </DataTableColumnHeader>
                                     </DataTableRow>
-                                )}
-                            </TableBody>
-                        </DataTable>
-                    </>
-                }
+                                </TableHead>
+                                <TableBody>
+                                    {props.cart.map((item, index) =>
+                                        <DataTableRow key={index}>
+                                            <DataTableCell>
+                                                {item.id}
+                                            </DataTableCell>
+                                            <DataTableCell>
+                                                {item.amount}
+                                            </DataTableCell>
+                                            <DataTableCell>
+                                                {item.from}
+                                            </DataTableCell>
+                                            <DataTableCell>
+                                                {item.to}
+                                            </DataTableCell>
+                                        </DataTableRow>
+                                    )}
+                                </TableBody>
+                            </DataTable>
+                        </>
+                    }
+                </div>
             </>
         )
     }

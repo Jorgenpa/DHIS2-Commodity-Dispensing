@@ -50,7 +50,9 @@ export function NeighborOverview(props) {
         data?.dataValueSets?.dataValues?.map(dataValue => {
             array.map(arrValue => {
                 if (arrValue.id == dataValue.dataElement) {
-                    if (dataValue.categoryOptionCombo == "rQLFnNXXIL0")
+                    if (dataValue.categoryOptionCombo == "J2Qf1jtZuj8")
+                        arrValue.con = dataValue.value
+                    else if (dataValue.categoryOptionCombo == "rQLFnNXXIL0")
                         arrValue.end = dataValue.value
                 }
             })
@@ -86,6 +88,7 @@ export function NeighborOverview(props) {
                     <DataTableHead>
                         <TableRowHead>
                             <DataTableColumnHeader>Commodity</DataTableColumnHeader>
+                            <DataTableColumnHeader>Consumption</DataTableColumnHeader>
                             <DataTableColumnHeader>In Stock</DataTableColumnHeader>
                         </TableRowHead>
                     </DataTableHead>
@@ -93,6 +96,7 @@ export function NeighborOverview(props) {
                         {array?.sort((a,b) => a.name > b.name ? 1 : -1).map((dataValue, index) =>
                             <DataTableRow key={index}>
                                 <DataTableCell>{dataValue.name}</DataTableCell>
+                                <DataTableCell>{dataValue.con}</DataTableCell>
                                 <DataTableCell>{dataValue.end}</DataTableCell>
                             </DataTableRow>
                         )}

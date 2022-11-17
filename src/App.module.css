@@ -29,4 +29,15 @@
     position: sticky;
     top: 0;
     height: fit-content;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
+
+.menuitem {
+    background: white !important;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-color: gray;
+}
+

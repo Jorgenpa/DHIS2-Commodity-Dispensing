@@ -1,0 +1,14 @@
+.dispensing {
+    display: flex !important;
+    gap: 0.5rem;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 25%;
+    height: auto;
+    background-color: #fefefe;
+    padding: 0.5rem;
+    box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.22);
+    -webkit-box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.22);
+    -moz-box-shadow: 1px 3px 5px 0px rgba(0,0,0,0.22);
+    
+}

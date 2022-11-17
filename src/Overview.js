@@ -19,10 +19,9 @@ import {
 
 import { fetchHospitalData, addDataStore } from "./DataQueries";
 import DataTableRowWithInput from "./components/dataTableRowWithInput";
-import axios from 'axios'
 
 
-// Retrieves data from the API and creates a table with it
+// Retrieves data from the life saving commodities API and creates a table with it. Restocking also happens here
 export function Overview(props) {
     const [period, setPeriod] = useState(props?.fd?.period.slice(0,4) + "-" + props?.fd?.period.slice(4))
     const { loading, error, data, refetch } = useDataQuery(fetchHospitalData(), {
@@ -104,10 +103,12 @@ export function Overview(props) {
         }
 
         const handlePeriod = (evt) => {
-            setPeriod(evt.value)
-            refetch({
-                period: evt.value.split("-")[0]+evt.value.split("-")[1]
-            })
+            if (evt.value) {
+                setPeriod(evt.value)
+                refetch({
+                    period: evt.value.split("-")[0]+evt.value.split("-")[1]
+                })
+            }
         }
 
         return (
@@ -115,8 +116,8 @@ export function Overview(props) {
                 <DataTableToolbar>
                     <Field label={props.fd.displayName}></Field>
                     <Field>
-                        <div style={{width: "fit-content"}}>
-                            <InputField label="Period: " id="periodInputField" type="month" name={`monthToDisplay`} value={period} onChange={handlePeriod} />
+                        <div style={{width: "fit-content"}} >
+                            <InputField id="periodInputField" type="month" name={`monthToDisplay`} value={period} onChange={handlePeriod} />
                         </div>
                     </Field>
                     <Field>

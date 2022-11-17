@@ -20,6 +20,7 @@ import {
 import { fetchHospitalData } from "./DataQueries";
 
 
+// Retrieves data from the dataStore API and displays logs of dispensing history and restocking history
 export function TransactionLog(props) {
   const { loading, error, data } = useDataQuery(fetchHospitalData(), {
     variables: {

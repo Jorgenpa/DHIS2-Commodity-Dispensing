@@ -7,6 +7,8 @@ import {
 } from '@dhis2/ui'
 import { useState, useEffect } from 'react';
 
+
+// Used in the Overview-table to display commodities
 const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
     const [inputValue, setInputValue] = useState()
     const [totalConsumption, setTotalConsumption] = useState()
