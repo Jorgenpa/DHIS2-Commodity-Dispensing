@@ -76,4 +76,5 @@ Displays a list of all the data elements in the Life-Saving Commodities dataset.
 ## **Missing and/or Non-Optimized Functionality/Implementations **
 - Possible for user to choose between user account in the system in the dispense-form. As of now the user has to type who it is to and from.
 - The period-selector (InputField) in the Overview component only works in the Chrome browser. 
-- In the dispensing cart it would be fitting to have the functionality to remove an item from the cart. 
+- In the dispensing cart it would be fitting to have the functionality to remove an item from the cart.
+- The ability to look at certain parts of the log. For example, viewing only elements from a chosen period in the log.
