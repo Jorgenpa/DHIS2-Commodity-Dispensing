@@ -20,7 +20,7 @@ const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
             newValue = parseInt(dataValue.end) */
 
         setTotalConsumption(parseInt(dataValue.con) + parseInt(evt.value))
-        setNewEndBalance(parseInt(dataValue.end) - parseInt(evt.value))
+        setNewEndBalance(parseInt(dataValue.end) + parseInt(evt.value))
         setInputValue(evt.value)
     }
 

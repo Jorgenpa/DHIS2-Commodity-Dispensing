@@ -131,6 +131,9 @@ export function Dispense(props) {
         }
 
         const handleSubmit = (evt) => {
+
+            
+            
             const date = new Date();
             console.log("inne i handleSubmit", evt)
 
