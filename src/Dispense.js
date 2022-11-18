@@ -152,32 +152,35 @@ export function Dispense(props) {
                     dataElement: consumption.id,
                     categoryOptionCombo: consumption.category,
                     value: String(parseInt(consumption.value) + parseInt(values.amount)),
-                },
-                {
-                        dataElement: endBalance.id,
-                        categoryOptionCombo: endBalance.category,
-                        value: String(parseInt(endBalance.value) - parseInt(values.amount))
-                }
-                )
-
+                })
+                mutate({
+                    dataElement: endBalance.id,
+                    categoryOptionCombo: endBalance.category,
+                    value: String(parseInt(endBalance.value) - parseInt(values.amount))
+                })
 
                 updateValues(item.id, "J2Qf1jtZuj8", values.amount)
                 updateValues(item.id, "rQLFnNXXIL0", -values.amount)
+
+                console.log(values.from)
 
                 props.dispensingData.push({
                     date: date,
                     commodityId: item.id,
                     commodityName: item.name,
-                    dispensedBy: values.from,
-                    dispensedTo: values.to,
-                    amount: values.amount,
+                    dispensedBy: item.from,
+                    dispensedTo: item.to,
+                    amount: item.amount,
                     org: props.fd.org
                 })
+                
 
-                let superObject = { data: props.dispensingData }
-                mutate2(superObject)
+                
 
             })
+
+            let superObject = { data: props.dispensingData }
+            mutate2(superObject)
             props.cart.length = 0;
         }
 
