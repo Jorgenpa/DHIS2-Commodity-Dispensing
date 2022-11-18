@@ -20,7 +20,7 @@ function MyApp() {
 
   // Let commodity overview be the start page
   const [activePage, setActivePage] = useState("TransactionLog");
-  let cart = []
+  const [theCart, setTheCart] = useState([])
   let dispensingData = []
   let restockData = []
 
@@ -69,10 +69,11 @@ function MyApp() {
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
           {activePage === "Dispense" && <Dispense 
             fd={facilityData} 
-            cart={cart} 
+            theCart={theCart}
+            setTheCart={setTheCart}
             dispensingData={dispensingData}/>
           }
-          {activePage === "Replenish" && <Replenish fd={facilityData} cart={cart} restockData={restockData} />}
+          {activePage === "Replenish" && <Replenish fd={facilityData} restockData={restockData} />}
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "TransactionLog" && <TransactionLog 
             setTabIsSelected={setTabIsSelected}

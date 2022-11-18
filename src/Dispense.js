@@ -107,14 +107,14 @@ export function Dispense(props) {
                 setErrorMessage("You are missing values")
                 return
             }
-            props.cart.push({
+            props.setTheCart([...props.theCart, {
                 "id": values.commodity,
                 "name": array.find(value=> value.id == values.commodity).name,
                 "amount": values.amount,
                 "from": values.from,
                 "to": values.to,
-            })
-            console.log(props.cart)
+            }])
+            console.log(props.theCart)
         }
 
         const showCart = () => {
@@ -143,7 +143,7 @@ export function Dispense(props) {
                 })
             }
 
-            props.cart.map(item => {
+            props.theCart.map(item => {
                 let consumption = getValues(item.id, "J2Qf1jtZuj8")
                 let endBalance = getValues(item.id, "rQLFnNXXIL0")
                 console.log(item)
@@ -181,7 +181,7 @@ export function Dispense(props) {
 
             let superObject = { data: props.dispensingData }
             mutate2(superObject)
-            props.cart.length = 0;
+            props.setTheCart([])
         }
 
         return (
@@ -220,16 +220,11 @@ export function Dispense(props) {
                     <Button name="AddToCart" onClick={handleCart}>
                         ADD TO CART
                     </Button>
-                    <Button name="Cart" onClick={showCart}>
-                        {(cartVisible ? "HIDE" : "VIEW")} CART
-                    </Button>
-                    {cartVisible &&
+                    {props.theCart.length > 0 &&
                         <>
-                            {props.cart.length > 0 &&
-                                <Button name="Submit" onClick={handleSubmit} value="submit">
-                                    SEND
-                                </Button>
-                            }
+                            <Button name="Submit" onClick={handleSubmit} value="submit">
+                                SEND
+                            </Button>
                             <DataTable>
                                 <TableHead>
                                     <DataTableRow>
@@ -248,7 +243,7 @@ export function Dispense(props) {
                                     </DataTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {props.cart.map((item, index) =>
+                                    {props.theCart.map((item, index) =>
                                         <DataTableRow key={index}>
                                             <DataTableCell>
                                                 {item.id}
