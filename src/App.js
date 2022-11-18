@@ -20,7 +20,7 @@ function MyApp() {
   // Let commodity overview be the start page
   const [activePage, setActivePage] = useState("Overview");
   const [theCart, setTheCart] = useState([])
-  let dispensingData = []
+  const [dispensingData, setDispensingData] = useState([])
   let restockData = []
 
   const [tabIsSelected, setTabIsSelected] = useState(true)
@@ -70,7 +70,8 @@ function MyApp() {
             fd={facilityData} 
             theCart={theCart}
             setTheCart={setTheCart}
-            dispensingData={dispensingData}/>
+            dispensingData={dispensingData}
+            setDispensingData={setDispensingData}/>
           }
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "TransactionLog" && <TransactionLog 
