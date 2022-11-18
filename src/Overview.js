@@ -93,6 +93,9 @@ export function Overview(props) {
 
         const sendValues = async () => {
             const date = new Date();
+
+            // This logic allows us to make several restock after one another without changing the page. At the first submit
+            // the restockData prop will be filled with the current dataSorage elements. On subsequent submits it will not add to the prop.
             if (props.restockData < 1) {
                 data?.restockHistory?.data?.map(val => {
                     props.restockData.push(val)
@@ -102,6 +105,8 @@ export function Overview(props) {
             replenishValues.forEach(item => {
                 let endBalance = getValues(item.id)
                 if (item.value && item.value > 0) {
+
+                    // Data for the dataStorage
                     props.restockData.push([{
                         date: date,
                         commodityId: item.id,
@@ -109,6 +114,7 @@ export function Overview(props) {
                         amount:item.value
                     }])
 
+                    // POST for changing the endBalance value of a commodity
                     mutate({
                     dataElement: item.id,
                     categoryOptionCombo: "rQLFnNXXIL0",
@@ -123,6 +129,8 @@ export function Overview(props) {
                 replenishValues.set(item.id, item)
             })
             setReplenish(false)
+
+            // Sends a PUT request with the new dataStorage elements
             let superObject = {data: props.restockData}
             mutate2(superObject)
 

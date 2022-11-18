@@ -36,18 +36,23 @@ export function TransactionLog(props) {
 
   if (data) {
 
+    // Array containing the dispenseHistory from our dataStore
     let dispenseArray = []
     data?.dispensingHistory?.data?.map(val => {
       dispenseArray.unshift(val)
     })
+
+    // Nested array containing the restockHistory from our dataStore
     let initialRestockArray = []
 
     data?.restockHistory?.data?.map(val => {
       initialRestockArray.unshift(val)
     })
 
+    // Flattened array of the initialrestockArray to remove the nesting
     let restockArray = [].concat.apply([], initialRestockArray);
 
+    // Handles the tab
     const handleClick = (tab) => {
       setSelectedTab(tab)
     }

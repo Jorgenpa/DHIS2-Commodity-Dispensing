@@ -135,7 +135,7 @@ export function Dispense(props) {
             
             const date = new Date();
 
-            // This logic allows us to make several dispenses afte one another without changing the page. At the first submit
+            // This logic allows us to make several dispenses after one another without changing the page. At the first submit
             // the dispensingData prop will be filled with the current dataSorage elements. On subsequent submits it will not add to the prop.
             if (props.dispensingData < 1) {
                 data?.dispensingHistory?.data?.map(val => {
