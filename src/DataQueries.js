@@ -66,19 +66,6 @@ export function deposit() {
     }
  }
 
- /*
-export function getStore() {
-    return {
-        dataStore: {
-            resource:"/dataStore/IN5320-G19/transactions",
-            params: {
-                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
-            }
-        }
-    }
-}
-*/
-
 // The data query to update the transaction log stored in dataStore
  export function storeDeposit() {
     return {
@@ -89,18 +76,6 @@ export function getStore() {
     }
  
 }
-/*
-export function getRestock() {
-    return {
-        dataStore: {
-            resource:"/dataStore/IN5320-G19/restockHistory",
-            params: {
-                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
-            }
-        }
-    }
-}
-*/
 
 // The data query to update the restock history stored in dataStore
  export function storeRestock() {

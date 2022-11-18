@@ -2,8 +2,6 @@ import {
     DataTableCell,
     DataTableRow,
     InputField,
-    hasValue,
-    ReactFinalForm
 } from '@dhis2/ui'
 import { useState, useEffect } from 'react';
 
@@ -15,10 +13,6 @@ const DataTableRowWithInput = ({ dataValue, replenish, handleInput }) => {
     const [newEndBalance, setNewEndBalance] = useState()
 
     const updateInput = (evt) => {
-        /* let newValue = parseInt(evt.value)
-        if(newValue > parseInt(dataValue.end))
-            newValue = parseInt(dataValue.end) */
-
         setTotalConsumption(parseInt(dataValue.con) + parseInt(evt.value))
         setNewEndBalance(parseInt(dataValue.end) + parseInt(evt.value))
         setInputValue(evt.value)

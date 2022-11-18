@@ -75,5 +75,6 @@ Displays a list of all the data elements in the Life-Saving Commodities dataset.
 
 ## **Missing and/or Non-Optimized Functionality/Implementations **
 - Possible for user to choose between user account in the system in the dispense-form. As of now the user has to type who it is to and from.
-- The transaction log is missing some key information it would be good to include, but we ran out of time. 
-- The period-selector (InputField) in Overview only works on Chrome 
+- The period-selector (InputField) in the Overview component only works in the Chrome browser. 
+- In overview the end balance only updates on screen when the user replenish all commodities at once. If only one or a few commodities are resupplied the dataStore endpoint is updated, but the table in the app is not updated unless the user refreshes the page. 
+- In the dispensing cart it would be fitting to have the functionality to remove an item from the cart. 

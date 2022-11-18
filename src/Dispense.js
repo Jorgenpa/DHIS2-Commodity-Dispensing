@@ -1,6 +1,6 @@
 import { useDataQuery, useDataMutation } from "@dhis2/app-runtime"
 import { CircularLoader } from "@dhis2/ui"
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     SingleSelect,
     SingleSelectOption,
@@ -17,7 +17,7 @@ import {
     AlertBar
 } from '@dhis2/ui'
 
-import { fetchDataStoreMutation, fetchHospitalData } from "./DataQueries";
+import { fetchHospitalData } from "./DataQueries";
 import { deposit } from "./DataQueries";
 import { storeDeposit } from "./DataQueries";
 import "./dispense.css"
@@ -37,7 +37,6 @@ export function Dispense(props) {
     const [mutate2] = useDataMutation(storeDeposit());
     const [values, setValues] = useState({})
     const [errorMessage, setErrorMessage] = useState("")
-    const [cartVisible, setCartVisible] = useState(false)
     const [categoryValues, setCategoryValues] = useState([])
     const [numOfComForSelected, setNumOfComForSelected] = useState()
 
@@ -117,10 +116,6 @@ export function Dispense(props) {
             console.log(props.theCart)
         }
 
-        const showCart = () => {
-            setCartVisible(!cartVisible)
-        }
-
         function getValues(commodity, categoryOptionCombo) {
             return categoryValues.find(value => value.id == commodity && value.category == categoryOptionCombo)
         }
@@ -131,8 +126,6 @@ export function Dispense(props) {
         }
 
         const handleSubmit = (evt) => {
-
-            
             
             const date = new Date();
             console.log("inne i handleSubmit", evt)
@@ -146,7 +139,6 @@ export function Dispense(props) {
             props.theCart.map(item => {
                 let consumption = getValues(item.id, "J2Qf1jtZuj8")
                 let endBalance = getValues(item.id, "rQLFnNXXIL0")
-                console.log(item)
                 
                 mutate({
                     dataElement: consumption.id,
@@ -173,9 +165,6 @@ export function Dispense(props) {
                     amount: item.amount,
                     org: props.fd.org
                 })
-                
-
-                
 
             })
 

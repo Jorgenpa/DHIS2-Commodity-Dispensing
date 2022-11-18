@@ -4,11 +4,9 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {
     DataTable,
-    DataTableCell,
     DataTableColumnHeader,
     DataTableHead,
     DataTableBody,
-    DataTableRow,
     TableRowHead,
     DataTableToolbar,
     Field,
@@ -17,7 +15,7 @@ import {
     ButtonStrip
 } from '@dhis2/ui'
 
-import { fetchHospitalData, addDataStore, deposit, storeRestock } from "./DataQueries";
+import { fetchHospitalData, deposit, storeRestock } from "./DataQueries";
 import DataTableRowWithInput from "./components/dataTableRowWithInput";
 
 
@@ -108,18 +106,19 @@ export function Overview(props) {
                         commodityId: item.id,
                         commodityName: getTheValues().find(value=> value.id == item.id).name,
                         amount:item.value
-                   }])
-                   mutate({
+                    }])
+                   
+                    mutate({
                     dataElement: item.id,
                     categoryOptionCombo: "rQLFnNXXIL0",
                     value: String(parseInt(item.value) + parseInt(endBalance.end))
-                })
+                    })
                 }
             })
+
             if (!oneIsEmpty) {
 
                 setReplenishValues(new Map(replenishValues.set("dateTime", new Date().toString())))
-                /* TODO: add to dataStore */
 
                 // For å sette nye verdier
                 setReplenishValues(replenishValues.delete('dateTime'))
