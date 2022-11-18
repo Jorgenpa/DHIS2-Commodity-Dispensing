@@ -82,10 +82,7 @@ export function Replenish(props) {
   function handleSend () {
     const date = new Date();
 
-    data?.restockHistory?.data?.map(val => {
-      props.restockData.push(val)
-    })
-    
+
     for (let i = 0; i < array.length; i++) {
       let val = values[array[i].name]
       if (val != undefined) {

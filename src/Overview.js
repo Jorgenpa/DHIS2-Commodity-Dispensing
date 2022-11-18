@@ -36,6 +36,7 @@ export function Overview(props) {
     const [replenish, setReplenish] = useState(false)
     const [dataValues, setDataValues] = useState([])
     const [replenishValues, setReplenishValues] = useState(new Map())
+    
 
     useEffect(() => {
         setDataValues(getTheValues())
@@ -89,6 +90,7 @@ export function Overview(props) {
           }
 
         const sendValues = async () => {
+            const date = new Date();
             let oneIsEmpty = false
             data?.restockHistory?.data?.map(val => {
                 props.restockData.push(val)
@@ -102,7 +104,9 @@ export function Overview(props) {
                 }
                 if (item.value != undefined) {
                     props.restockData.push([{
+                        date: date,
                         commodityId: item.id,
+                        commodityName: getTheValues().find(value=> value.id == item.id).name,
                         amount:item.value
                    }])
                    mutate({
