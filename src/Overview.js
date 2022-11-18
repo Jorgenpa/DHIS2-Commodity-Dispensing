@@ -37,6 +37,11 @@ export function Overview(props) {
     const [dataValues, setDataValues] = useState([])
     const [replenishValues, setReplenishValues] = useState(new Map())
     
+    useEffect(() => {
+        dataValues.map(item => {
+            replenishValues.set(item.id, item)
+        })
+    }, [dataValues])
 
     useEffect(() => {
         setDataValues(getTheValues())
@@ -91,18 +96,13 @@ export function Overview(props) {
 
         const sendValues = async () => {
             const date = new Date();
-            let oneIsEmpty = false
             data?.restockHistory?.data?.map(val => {
                 props.restockData.push(val)
               })
 
             replenishValues.forEach(item => {
                 let endBalance = getValues(item.id)
-                if (!item.value) {
-                    oneIsEmpty = true
-                    return
-                }
-                if (item.value != undefined) {
+                if (item.value && item.value > 0) {
                     props.restockData.push([{
                         date: date,
                         commodityId: item.id,
@@ -116,19 +116,16 @@ export function Overview(props) {
                 })
                 }
             })
-            if (!oneIsEmpty) {
 
-                setReplenishValues(new Map(replenishValues.set("dateTime", new Date().toString())))
-                /* TODO: add to dataStore */
-
-                // For å sette nye verdier
-                setReplenishValues(replenishValues.delete('dateTime'))
-                setDataValues(Array.from(replenishValues.values()))
-                setReplenishValues(new Map())
-                setReplenish(false)
-                let superObject = {data: props.restockData}
-                mutate2(superObject)
-            }
+            setDataValues(Array.from(replenishValues.values()))
+            setReplenishValues(new Map()) 
+            dataValues.map(item => {
+                replenishValues.set(item.id, item)
+            })
+            setReplenish(false)
+            let superObject = {data: props.restockData}
+            mutate2(superObject)
+            
         }
 
         const handleInput = (id, value) => {
