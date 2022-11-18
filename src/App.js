@@ -10,7 +10,6 @@ import { Navigation } from "./Navigation";
 import { DataElements } from "./DataElements";
 import { Overview } from "./Overview";
 import { NeighborOverview } from "./Neighbors";
-import { Replenish } from "./Replenish";
 import { TransactionLog } from "./TransactionLog";
 
 function MyApp() {
@@ -73,7 +72,6 @@ function MyApp() {
             setTheCart={setTheCart}
             dispensingData={dispensingData}/>
           }
-          {activePage === "Replenish" && <Replenish fd={facilityData} restockData={restockData} />}
           {activePage === "DataElements" && <DataElements fd={facilityData} />}
           {activePage === "TransactionLog" && <TransactionLog 
             setTabIsSelected={setTabIsSelected}

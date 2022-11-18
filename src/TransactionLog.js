@@ -38,12 +38,12 @@ export function TransactionLog(props) {
 
     let dispenseArray = []
     data?.dispensingHistory?.data?.map(val => {
-      dispenseArray.push(val)
+      dispenseArray.unshift(val)
     })
     let initialRestockArray = []
 
     data?.restockHistory?.data?.map(val => {
-      initialRestockArray.push(val)
+      initialRestockArray.unshift(val)
     })
 
     let restockArray = [].concat.apply([], initialRestockArray);
