@@ -64,8 +64,8 @@ export function TransactionLog(props) {
           <DataTable>
             <DataTableHead>
               <DataTableColumnHeader>Date</DataTableColumnHeader>
-              <DataTableColumnHeader>ID</DataTableColumnHeader>
               <DataTableColumnHeader>Commodity</DataTableColumnHeader>
+              <DataTableColumnHeader>ID</DataTableColumnHeader>
               <DataTableColumnHeader>From</DataTableColumnHeader>
               <DataTableColumnHeader>To</DataTableColumnHeader>
               <DataTableColumnHeader>Amount</DataTableColumnHeader>
@@ -77,10 +77,10 @@ export function TransactionLog(props) {
                     {item.date}
                   </DataTableCell>
                   <DataTableCell>
-                    {item.commodityId}
+                    {item.commodityName}
                   </DataTableCell>
                   <DataTableCell>
-                    {item.commodityName}
+                    {item.commodityId}
                   </DataTableCell>
                   <DataTableCell>
                     {item.dispensedBy}
@@ -99,7 +99,6 @@ export function TransactionLog(props) {
           <DataTable>
             <DataTableHead>
             <DataTableColumnHeader>Date</DataTableColumnHeader>
-              <DataTableColumnHeader>ID</DataTableColumnHeader>
               <DataTableColumnHeader>Commodity</DataTableColumnHeader>
               <DataTableColumnHeader>Amount</DataTableColumnHeader>
             </DataTableHead>
@@ -108,9 +107,6 @@ export function TransactionLog(props) {
                 <DataTableRow key={index}>
                   <DataTableCell>
                     {item.date}
-                  </DataTableCell>
-                  <DataTableCell>
-                    {item.commodityId}
                   </DataTableCell>
                   <DataTableCell>
                     {item.commodityName}

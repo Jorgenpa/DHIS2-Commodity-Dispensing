@@ -235,7 +235,7 @@ export function Dispense(props) {
                                     {props.theCart.map((item, index) =>
                                         <DataTableRow key={index}>
                                             <DataTableCell>
-                                                {item.id}
+                                                {item.name}
                                             </DataTableCell>
                                             <DataTableCell>
                                                 {item.amount}
