@@ -11,6 +11,7 @@ export function fetchHospitalData() {
                 dataSet: "ULowA8V3ucd"
             })
         },
+
         dataSets: {
             resource: "/dataSets",
             params: {
@@ -20,17 +21,12 @@ export function fetchHospitalData() {
             }
         },
         restockHistory: {
-            resource: "/dataStore/IN5320-G19/restockHistory",
-            params: {
-                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
-            }
+            resource: "/dataStore/IN5320-G19/restockHistory"
         },
         dispensingHistory: {
-            resource:"/dataStore/IN5320-G19/transactions",
-            params: {
-                fields: "dataValues[date, commodityId, commodityName, dispensedBy, dispensedTo, amount]",
-            }
-    }   }
+            resource:"/dataStore/IN5320-G19/transactions"            
+        }  
+     }
 }
 
 
