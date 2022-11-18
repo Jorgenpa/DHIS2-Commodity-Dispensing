@@ -21,7 +21,7 @@ function MyApp() {
   const [activePage, setActivePage] = useState("Overview");
   const [theCart, setTheCart] = useState([])
   const [dispensingData, setDispensingData] = useState([])
-  let restockData = []
+  const [restockData, setRestockData] = useState([])
 
   const [tabIsSelected, setTabIsSelected] = useState(true)
   function handleClick () {
@@ -64,7 +64,7 @@ function MyApp() {
           />
         </div>
         <div className={classes.right}>
-          {activePage === "Overview" && <Overview fd={facilityData} restockData={restockData} />}
+          {activePage === "Overview" && <Overview fd={facilityData} restockData={restockData} setRestockData={setRestockData}/>}
           {activePage === "Neighbors" && <NeighborOverview fd={facilityData} neighbors={facilities} />}
           {activePage === "Dispense" && <Dispense 
             fd={facilityData} 

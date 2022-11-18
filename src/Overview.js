@@ -93,9 +93,11 @@ export function Overview(props) {
 
         const sendValues = async () => {
             const date = new Date();
-            data?.restockHistory?.data?.map(val => {
-                props.restockData.push(val)
-              })
+            if (props.restockData < 1) {
+                data?.restockHistory?.data?.map(val => {
+                    props.restockData.push(val)
+                })
+            }
 
             replenishValues.forEach(item => {
                 let endBalance = getValues(item.id)
