@@ -88,7 +88,6 @@ export function Overview(props) {
 
         function getValues(commodity) {
             let array = getTheValues()
-            console.log(array)
             return array.find(value => value.id == commodity)
           }
 
@@ -128,7 +127,7 @@ export function Overview(props) {
         }
 
         const handleInput = (id, value) => {
-            setReplenishValues(new Map(replenishValues.set(id, value)))
+            setReplenishValues(replenishValues.set(id, value))
         }
 
         const handlePeriod = (evt) => {
