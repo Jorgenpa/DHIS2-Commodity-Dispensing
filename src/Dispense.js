@@ -40,6 +40,8 @@ export function Dispense(props) {
     const [categoryValues, setCategoryValues] = useState([])
     const [numOfComForSelected, setNumOfComForSelected] = useState()
 
+
+    // Used for storing all the values of the different commodities
     data?.dataValueSets?.dataValues?.map(dataValue => {
         categoryValues.push({
             "id": dataValue.dataElement,
@@ -100,7 +102,8 @@ export function Dispense(props) {
                 commodity: evt.selected
             }))
         }
-
+        
+        // Pushes the input values as an object onto the cart prop after the "ADD TO CART" button has been clicked
         const handleCart = () => {
             if (!values.commodity || !values.amount || !values.from || !values.to) {
                 setErrorMessage("You are missing values")
@@ -116,35 +119,43 @@ export function Dispense(props) {
             console.log(props.theCart)
         }
 
+        // Gets the desired object, containing important values from the categoryValues array.
         function getValues(commodity, categoryOptionCombo) {
             return categoryValues.find(value => value.id == commodity && value.category == categoryOptionCombo)
         }
 
+        // Makes sure that the local numbering is correctly added/subtracted after a POST
         function updateValues(commodity, categoryOptionCombo, newValue) {
             let index = categoryValues.findIndex(obj => obj.id == commodity && obj.category == categoryOptionCombo)
             categoryValues[index].value = String(parseInt(categoryValues[index].value) + parseInt(newValue))
         }
 
+        // POSTs the cart to the dataValues and PUTs the dispensingData prop to the dataStore
         const handleSubmit = (evt) => {
             
             const date = new Date();
-            console.log("inne i handleSubmit", evt)
-            console.log(props.dispensingData)
+
+            // This logic allows us to make several dispenses afte one another without changing the page. At the first submit
+            // the dispensingData prop will be filled with the current dataSorage elements. On subsequent submits it will not add to the prop.
             if (props.dispensingData < 1) {
                 data?.dispensingHistory?.data?.map(val => {
                     props.dispensingData.push(val)
                 })
             }
 
+            // All items of the cart prop will be POSTed, local values will be updated and then the cart will be reset
             props.theCart.map(item => {
+
                 let consumption = getValues(item.id, "J2Qf1jtZuj8")
                 let endBalance = getValues(item.id, "rQLFnNXXIL0")
                 
+                // POST for changing the consumption value of a commodity
                 mutate({
                     dataElement: consumption.id,
                     categoryOptionCombo: consumption.category,
                     value: String(parseInt(consumption.value) + parseInt(values.amount)),
                 })
+                // POST for changing the endBalance value of a commodity
                 mutate({
                     dataElement: endBalance.id,
                     categoryOptionCombo: endBalance.category,
@@ -154,8 +165,7 @@ export function Dispense(props) {
                 updateValues(item.id, "J2Qf1jtZuj8", values.amount)
                 updateValues(item.id, "rQLFnNXXIL0", -values.amount)
 
-                console.log(values.from)
-
+                // Data for the dataStorage
                 props.dispensingData.push({
                     date: date,
                     commodityId: item.id,
@@ -168,8 +178,11 @@ export function Dispense(props) {
 
             })
 
+            // Sends a PUT request with the new dataStorage elements
             let superObject = { data: props.dispensingData }
             mutate2(superObject)
+
+            // Resets the cart
             props.setTheCart([])
         }
 
