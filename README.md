@@ -64,13 +64,17 @@ From here the user can also replenish commodities. The stock in Overview is muta
 The neighbors-component allows the user to enter the neighboring hospitals stock listings, to see whether those have sufficient stock in case of outage in their own stock.
 
 #### **Dispensing** 
-Allows the user to dispense the different commodities that are in stock. The user enters the type of commodity, amount, as well as who it is from and to. If successfull, the stock in overview will be updated and logging-information is submitted to the dataStore API endpoint. 
-
-#### **Replenish** 
-Allows the user to organize a restock of commodities. The stock in Overview is mutated accordingly to the entered restock and the data is logged in the dataStore endpoint. 
+Allows the user to dispense the different commodities that are in stock. The user enters the type of commodity, amount, as well as who it is from and to. If successfull, the stock in overview will be updated and logging-information is submitted to the dataStore API endpoint. A cart is displayed for the user as they are adding commodities to their order, and this disappears when the order is sent. 
 
 #### **Transaction Log** 
 Lets the user look at the dispensing logs and restock logs of commodities. The data is pulled from the dataStore endpoint. 
 
 #### **Data Elements** 
 Displays a list of all the data elements in the Life-Saving Commodities dataset. When a commodity is selected its identificator, display name and creation data is presented. 
+
+
+## **Missing and/or Non-Optimized Functionality/Implementations **
+- Possible for user to choose between user account in the system in the dispense-form. As of now the user has to type who it is to and from.
+- The period-selector (InputField) in the Overview component only works in the Chrome browser. 
+- In overview the end balance only updates on screen when the user replenish all commodities at once. If only one or a few commodities are resupplied the dataStore endpoint is updated, but the table in the app is not updated unless the user refreshes the page. 
+- In the dispensing cart it would be fitting to have the functionality to remove an item from the cart. 

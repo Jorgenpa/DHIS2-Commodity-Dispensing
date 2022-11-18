@@ -1,4 +1,4 @@
-import { useDataQuery, useDataMutation } from "@dhis2/app-runtime"
+import { useDataQuery } from "@dhis2/app-runtime"
 import { CircularLoader, Menu, MenuItem } from "@dhis2/ui"
 import {
     DataTable,

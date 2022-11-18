@@ -4,11 +4,9 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {
     DataTable,
-    DataTableCell,
     DataTableColumnHeader,
     DataTableHead,
     DataTableBody,
-    DataTableRow,
     TableRowHead,
     DataTableToolbar,
     Field,
@@ -17,7 +15,7 @@ import {
     ButtonStrip
 } from '@dhis2/ui'
 
-import { fetchHospitalData, addDataStore, deposit, storeRestock } from "./DataQueries";
+import { fetchHospitalData, deposit, storeRestock } from "./DataQueries";
 import DataTableRowWithInput from "./components/dataTableRowWithInput";
 
 
@@ -36,7 +34,7 @@ export function Overview(props) {
     const [replenish, setReplenish] = useState(false)
     const [dataValues, setDataValues] = useState([])
     const [replenishValues, setReplenishValues] = useState(new Map())
-    
+
     useEffect(() => {
         dataValues.map(item => {
             replenishValues.set(item.id, item)
@@ -108,24 +106,25 @@ export function Overview(props) {
                         commodityId: item.id,
                         commodityName: getTheValues().find(value=> value.id == item.id).name,
                         amount:item.value
-                   }])
-                   mutate({
+                    }])
+
+                    mutate({
                     dataElement: item.id,
                     categoryOptionCombo: "rQLFnNXXIL0",
                     value: String(parseInt(item.value) + parseInt(endBalance.end))
-                })
+                    })
                 }
             })
 
             setDataValues(Array.from(replenishValues.values()))
-            setReplenishValues(new Map()) 
+            setReplenishValues(new Map())
             dataValues.map(item => {
                 replenishValues.set(item.id, item)
             })
             setReplenish(false)
             let superObject = {data: props.restockData}
             mutate2(superObject)
-            
+
         }
 
         const handleInput = (id, value) => {

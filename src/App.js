@@ -19,7 +19,7 @@ function MyApp() {
   const { loading, error, data } = useDataQuery(fetchNeighbors())
 
   // Let commodity overview be the start page
-  const [activePage, setActivePage] = useState("TransactionLog");
+  const [activePage, setActivePage] = useState("Overview");
   const [theCart, setTheCart] = useState([])
   let dispensingData = []
   let restockData = []

@@ -1,29 +1,14 @@
 import { useDataQuery, useDataMutation } from "@dhis2/app-runtime"
 import { CircularLoader } from "@dhis2/ui"
 import React, { useState } from 'react';
-import {useRef, useEffect} from 'react';
 
 import {
-    ReactFinalForm,
-    InputFieldFF,
-    SingleSelectFieldFF,
-    SwitchFieldFF,
-    composeValidators,
-    createEqualTo,
-    email,
-    hasValue,
     DataTable,
     DataTableCell,
     DataTableColumnHeader,
     DataTableHead,
     DataTableBody,
     DataTableRow,
-    TableRowHead,
-    DataTableToolbar,
-    Field,
-    DropdownButton,
-    FlyoutMenu,
-    MenuItem,
     Button,
     Input,
 } from '@dhis2/ui'
