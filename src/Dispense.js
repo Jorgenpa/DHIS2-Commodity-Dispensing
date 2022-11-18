@@ -136,24 +136,28 @@ export function Dispense(props) {
             
             const date = new Date();
             console.log("inne i handleSubmit", evt)
-
-            data?.dispensingHistory?.data?.map(val => {
-                props.dispensingData.push(val)
-            })
+            console.log(props.dispensingData)
+            if (props.dispensingData < 1) {
+                data?.dispensingHistory?.data?.map(val => {
+                    props.dispensingData.push(val)
+                })
+            }
 
             props.cart.map(item => {
                 let consumption = getValues(item.id, "J2Qf1jtZuj8")
                 let endBalance = getValues(item.id, "rQLFnNXXIL0")
+                console.log(item)
+                
                 mutate({
                     dataElement: consumption.id,
                     categoryOptionCombo: consumption.category,
                     value: String(parseInt(consumption.value) + parseInt(values.amount)),
                 },
-                    {
+                {
                         dataElement: endBalance.id,
                         categoryOptionCombo: endBalance.category,
                         value: String(parseInt(endBalance.value) - parseInt(values.amount))
-                    }
+                }
                 )
 
 
@@ -175,7 +179,6 @@ export function Dispense(props) {
 
             })
             props.cart.length = 0;
-            props.dispensingData.length = 0;
         }
 
         return (
